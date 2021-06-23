@@ -1,25 +1,18 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import Auth from './screens/Auth';
+import store from './store';
 
-type RootStackParamList = {
-	Auth: undefined;
-};
+import RootStackScreen from './screens';
 
-const RootStack = createStackNavigator<RootStackParamList>();
-
-const App: React.FC<{}> = () => {
+const App: React.FC = () => {
 	return (
-		<NavigationContainer>
-			<RootStack.Navigator
-				initialRouteName='Auth'
-				screenOptions={{ headerShown: false }}
-			>
-				<RootStack.Screen name='Auth' component={Auth} />
-			</RootStack.Navigator>
-		</NavigationContainer>
+		<Provider store={store}>
+			<NavigationContainer>
+				<RootStackScreen />
+			</NavigationContainer>
+		</Provider>
 	);
 };
 export default App;

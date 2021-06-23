@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { useDispatch } from 'react-redux';
 
+import { authenticationAction } from '../store';
 import Input from './Inputs';
 import InputPassword from './Inputs/Password';
 import FormButton from './FormButton';
@@ -11,6 +13,11 @@ import FormResetPassword from './FormResetPassword';
 
 const FormAuthentication: React.FC = () => {
 	const [page, setPage] = useState('');
+	const dispatch = useDispatch();
+
+	const handleLogin = () => {
+		dispatch(authenticationAction.login());
+	};
 
 	const handleSetPage = (page: string) => {
 		setPage(page);
@@ -35,7 +42,7 @@ const FormAuthentication: React.FC = () => {
 					>
 						I forget my password
 					</Text>
-					<FormButton textButton='Log In' onPress={() => null} />
+					<FormButton textButton='Log In' onPress={handleLogin} />
 				</View>
 				<SignUpButton onPress={() => setPage('registration')} />
 			</View>
