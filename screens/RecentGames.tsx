@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 
-export default function RecentGames() {
-	return (
-		<View>
-			<Text>Recent Games</Text>
-		</View>
-	);
-}
+import GamesBar from '../components/RecentGamesBar';
+
+const RecentGamesBar: React.FC<{
+	navigation: { push: (path: string) => void };
+}> = (props) => {
+	return <GamesBar navigation={props.navigation} />;
+};
+
+export default RecentGamesBar;
