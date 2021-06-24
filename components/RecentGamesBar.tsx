@@ -3,9 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import GameButtonsList from './GameButtonsList';
 
-const RecentGamesBar: React.FC<{
-	navigation: { push: (path: string) => void };
-}> = (props) => {
+const RecentGamesBar: React.FC = () => {
 	const selectGameHandle = (game: string) => {};
 
 	return (
