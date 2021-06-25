@@ -1,11 +1,25 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	GestureResponderEvent,
+} from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function HomeButton() {
+const HomeButton: React.FC<{
+	navigation: (event: GestureResponderEvent) => void;
+	thisRoute: boolean;
+}> = (props) => {
 	return (
-		<TouchableOpacity style={styles.button}>
+		<TouchableOpacity
+			style={{
+				...styles.button,
+				borderColor: props.thisRoute ? '#B5C401' : 'black',
+			}}
+			onPress={props.navigation}
+		>
 			<MaterialIcons
 				name='home'
 				size={22}
@@ -15,7 +29,7 @@ export default function HomeButton() {
 			<Text style={styles.titleText}>Home</Text>
 		</TouchableOpacity>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	button: {
@@ -23,7 +37,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		borderTopWidth: 3,
 		borderRadius: 2,
-		borderColor: '#B5C401',
 	},
 	titleText: {
 		fontSize: 12,
@@ -32,3 +45,5 @@ const styles = StyleSheet.create({
 		color: '#707070',
 	},
 });
+
+export default HomeButton;

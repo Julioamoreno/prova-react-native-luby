@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	TouchableOpacity,
+	GestureResponderEvent,
+} from 'react-native';
 
-export default function NewBetButton() {
+const NewBetButton: React.FC<{
+	navigation: (event: GestureResponderEvent) => void;
+	thisRoute: boolean;
+}> = (props) => {
 	return (
-		<TouchableOpacity style={styles.button}>
+		<TouchableOpacity style={styles.button} onPress={props.navigation}>
 			<View style={styles.shadow}></View>
 		</TouchableOpacity>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	button: {
@@ -38,3 +46,5 @@ const styles = StyleSheet.create({
 		color: '#707070',
 	},
 });
+
+export default NewBetButton;
