@@ -3,10 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import GameType from './GameType';
 
 import AvailableGamesModel from '../models/games';
+import GameModel from '../models/game';
 
 const GameButtonsList: React.FC<{
-	selectedButton: number;
-	selectGameHandle: (game: string) => void;
+	selectedButton: number[];
+	selectGameHandle: (game: GameModel) => void;
 }> = (props) => {
 	const [allGames, setAllGames] = useState<AvailableGamesModel>([
 		{
@@ -52,8 +53,8 @@ const GameButtonsList: React.FC<{
 						key={game.id}
 						color={game.color}
 						gameType={game.type}
-						checked={true}
-						onPress={() => props.selectGameHandle('Mega-Sena')}
+						checked={props.selectedButton?.includes(game.id)}
+						onPress={() => props.selectGameHandle(game)}
 					/>
 				))}
 		</View>
@@ -62,7 +63,6 @@ const GameButtonsList: React.FC<{
 
 const styles = StyleSheet.create({
 	gameList: {
-		flex: 1,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		alignItems: 'stretch',

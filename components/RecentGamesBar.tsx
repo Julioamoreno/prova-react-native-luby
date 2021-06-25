@@ -1,10 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { State, recentsAction } from '../store';
 import GameButtonsList from './GameButtonsList';
 
+import GameModel from '../models/game';
+
 const RecentGamesBar: React.FC = () => {
-	const selectGameHandle = (game: string) => {};
+	const dispatch = useDispatch();
+	const gameType = useSelector((state: State) => state.recents.id);
+	const selectGameHandle = (game: GameModel) => {
+		dispatch(recentsAction.setGame({ id: game.id }));
+	};
 
 	return (
 		<View style={styles.container}>
@@ -12,7 +20,7 @@ const RecentGamesBar: React.FC = () => {
 			<View>
 				<Text style={styles.subTitle}>Filters</Text>
 				<GameButtonsList
-					selectedButton={1}
+					selectedButton={gameType}
 					selectGameHandle={selectGameHandle}
 				/>
 			</View>
