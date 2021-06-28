@@ -1,23 +1,41 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import GameButtonsList from '../components/GameButtonsList';
+import GameDescription from '../components/GameDescription';
+import ActionBetBar from '../components/ActionBetBar';
+
+import { State, gameSelectedAction, gamePlayedAction } from '../store';
+
+import GameModel from '../models/game';
+import ListNumbers from '../components/ListNumbers';
 
 const NewBet = () => {
-	const selectGameHandle = () => {};
+	const dispatch = useDispatch();
+	const gameType = useSelector((state: State) => state.selectedGame.gameType);
+	const { type, numbersSelected } = useSelector(
+		(state: State) => state.gamePlayed
+	);
+	const selectGameHandle = (game: GameModel) => {
+		dispatch(gameSelectedAction.setGameSelected({ id: game.id }));
+		dispatch(gamePlayedAction.setGamePlayed({ game }));
+	};
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>New Bet For Lotomania</Text>
-			<View style={styles.containerGameBar}>
-				<Text style={styles.subtitle}>Choose a game</Text>
-				<GameButtonsList
-					selectedButton={1}
-					selectGameHandle={selectGameHandle}
-				/>
+			<View style={styles.bar}>
+				<Text style={styles.title}>New Bet For {type}</Text>
+				<View style={styles.containerGameBar}>
+					<Text style={styles.subtitle}>Choose a game</Text>
+					<GameButtonsList
+						selectedButton={gameType}
+						selectGameHandle={selectGameHandle}
+					/>
+				</View>
+				{numbersSelected.length === 0 && <GameDescription />}
+				{numbersSelected.length > 0 && <ActionBetBar />}
 			</View>
-			<View style={styles.containerDescription}>
-				<Text style={styles.descriptionTitle}>Fill your bet</Text>
-			</View>
+			<ListNumbers />
 		</View>
 	);
 };
@@ -26,7 +44,14 @@ export default NewBet;
 
 const styles = StyleSheet.create({
 	container: {
+		opacity: 60,
+		// backgroundColor: 'rgba(255, 255, 255, 0.5)',
 		margin: 15,
+	},
+	bar: {
+		opacity: 60,
+		backgroundColor: 'rgba(255, 255, 255, 0.1)',
+		zIndex: 2,
 	},
 	title: {
 		fontSize: 22,
