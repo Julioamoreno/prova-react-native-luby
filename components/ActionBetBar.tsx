@@ -23,6 +23,7 @@ const ActionBetBar: React.FC = (props) => {
 			<ScrollView horizontal>
 				{numbersSelected.map((number, idx) => (
 					<ElipseNumber
+						key={idx}
 						removeNumber={UnselectNumber}
 						color={color}
 						number={number}
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
 		// flexDirection: 'row',
 		justifyContent: 'space-between',
 		height: 100,
+		marginBottom: 20,
 	},
 });
 

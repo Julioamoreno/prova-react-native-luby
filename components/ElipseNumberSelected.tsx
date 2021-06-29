@@ -14,24 +14,33 @@ const ElipseNumber: React.FC<{
 				backgroundColor: props.color,
 			}}
 		>
-			<Text style={styles.elipseText}>{props.number}</Text>
+			<View style={styles.containerElipse}>
+				<Text style={styles.closeBtn}>x</Text>
+				<Text style={styles.elipseText}>{props.number}</Text>
+			</View>
 		</TouchableOpacity>
 	);
 };
 
 const styles = StyleSheet.create({
 	elipse: {
-		flexWrap: 'wrap',
-		alignItems: 'center',
-		alignSelf: 'center',
-		alignContent: 'center',
-
 		width: 40,
 		height: 40,
 		borderRadius: 25,
 		marginBottom: 10,
 		marginRight: 10,
 		color: '#fff',
+	},
+	containerElipse: {
+		flexDirection: 'row-reverse',
+		alignItems: 'flex-start',
+		alignSelf: 'center',
+		alignContent: 'space-around',
+	},
+	closeBtn: {
+		color: '#FFFFFF',
+		fontWeight: 'bold',
+		transform: [{ translateY: -5 }, { translateX: -4 }],
 	},
 	elipseText: {
 		color: '#ffffff',
