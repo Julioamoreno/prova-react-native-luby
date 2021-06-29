@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 const ElipseNumber: React.FC<{
 	removeNumber: (number: string) => void;
@@ -15,7 +16,9 @@ const ElipseNumber: React.FC<{
 			}}
 		>
 			<View style={styles.containerElipse}>
-				<Text style={styles.closeBtn}>x</Text>
+				<View style={styles.closeBtn}>
+					<FontAwesome name='close' size={10} color='#FFFFFF' />
+				</View>
 				<Text style={styles.elipseText}>{props.number}</Text>
 			</View>
 		</TouchableOpacity>
@@ -24,8 +27,8 @@ const ElipseNumber: React.FC<{
 
 const styles = StyleSheet.create({
 	elipse: {
-		width: 40,
-		height: 40,
+		width: 42,
+		height: 42,
 		borderRadius: 25,
 		marginBottom: 10,
 		marginRight: 10,
@@ -34,19 +37,19 @@ const styles = StyleSheet.create({
 	containerElipse: {
 		flexDirection: 'row-reverse',
 		alignItems: 'flex-start',
-		alignSelf: 'center',
 		alignContent: 'space-around',
+		marginLeft: 5,
 	},
 	closeBtn: {
 		color: '#FFFFFF',
 		fontWeight: 'bold',
-		transform: [{ translateY: -5 }, { translateX: -4 }],
+		transform: [{ translateY: 4 }, { translateX: -3 }],
 	},
 	elipseText: {
 		color: '#ffffff',
-		fontSize: 20,
+		fontSize: 15,
 		fontWeight: 'bold',
-		marginTop: 5,
+		marginTop: 10,
 	},
 });
 

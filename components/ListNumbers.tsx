@@ -7,6 +7,7 @@ import { State } from '../store';
 import { gamePlayedAction } from '../store/index';
 
 import ElipseNumber from './ElipseNumber';
+import FormatString from '../shared/format/Number';
 
 const ListNumbers: React.FC = () => {
 	const { range, max_number, numbersSelected, color } = useSelector(
@@ -40,16 +41,10 @@ const ListNumbers: React.FC = () => {
 						Array.apply(1, Array(range)).map((_x, idx) => (
 							<ElipseNumber
 								key={idx}
-								number={(idx + 1).toLocaleString('pt-BR', {
-									minimumIntegerDigits: 2,
-								})}
+								number={FormatString((idx + 1).toString())}
 								color={color}
 								selectNumber={selectNumberHandle}
-								active={numbers?.includes(
-									(idx + 1).toLocaleString('pt-BR', {
-										minimumIntegerDigits: 2,
-									})
-								)}
+								active={numbers?.includes(FormatString((idx + 1).toString()))}
 							/>
 						))}
 				</View>

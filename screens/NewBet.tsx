@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import GameButtonsList from '../components/GameButtonsList';
 import GameDescription from '../components/GameDescription';
 import ActionBetBar from '../components/ActionBetBar';
+import DrawerScreenNavigationProp from '../models/HomeScreenNavigationProp';
 
 import { State, gameSelectedAction, gamePlayedAction } from '../store';
 
 import GameModel from '../models/game';
 import ListNumbers from '../components/ListNumbers';
 
-const NewBet = () => {
+const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
+	navigation,
+}) => {
 	const dispatch = useDispatch();
 	const gameType = useSelector((state: State) => state.selectedGame.gameType);
 	const { type, numbersSelected } = useSelector(
@@ -33,7 +36,7 @@ const NewBet = () => {
 					/>
 				</View>
 				{numbersSelected.length === 0 && <GameDescription />}
-				{numbersSelected.length > 0 && <ActionBetBar />}
+				{numbersSelected.length > 0 && <ActionBetBar navigation={navigation} />}
 			</View>
 			<ListNumbers />
 		</View>

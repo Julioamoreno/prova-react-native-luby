@@ -1,14 +1,20 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import HomeScreenNavigationProp from '../models/HomeScreenNavigationProp';
 
-import { State } from '../store';
-
-import { gamePlayedAction } from '../store';
+import {
+	State,
+	gamePlayedAction,
+	cartGameAction,
+	cartTotalAction,
+} from '../store';
 
 import { Ionicons } from '@expo/vector-icons';
 
-const GameAction: React.FC = (props) => {
+const GameAction: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
+	navigation,
+}) => {
 	const dispatch = useDispatch();
 	const game = useSelector((state: State) => state.gamePlayed);
 
@@ -28,7 +34,18 @@ const GameAction: React.FC = (props) => {
 		if (game.numbersSelected.length < game.max_number) {
 			return alert('Termine de completar o jogo para adicionar ao carrinho.');
 		}
-
+		dispatch(
+			cartGameAction.newItemCart({
+				id: game.id,
+				type: game.type,
+				numbers: game.numbersSelected.join(', '),
+				price: game.price,
+				color: game.color,
+				minCartValue: game.min_cart_value,
+			})
+		);
+		dispatch(cartTotalAction.increment({ price: game.price }));
+		navigation.openDrawer();
 		dispatch(gamePlayedAction.clearGame());
 	};
 

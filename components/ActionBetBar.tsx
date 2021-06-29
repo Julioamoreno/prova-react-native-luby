@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import GameAction from './GameAction';
 
@@ -8,7 +9,11 @@ import { State, gamePlayedAction } from '../store';
 
 import ElipseNumber from './ElipseNumberSelected';
 
-const ActionBetBar: React.FC = (props) => {
+import DrawerScreenNavigationProp from '../models/HomeScreenNavigationProp';
+
+const ActionBetBar: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
+	navigation,
+}) => {
 	const dispatch = useDispatch();
 
 	const { numbersSelected, color } = useSelector(
@@ -30,7 +35,7 @@ const ActionBetBar: React.FC = (props) => {
 					/>
 				))}
 			</ScrollView>
-			<GameAction />
+			<GameAction navigation={navigation} />
 		</View>
 	);
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
 import { State } from '../store';
 
@@ -12,6 +13,10 @@ import ProfileButton from '../shared/tabBar/ProfileButton';
 import Auth from './Auth';
 import RecentGames from './RecentGames';
 import NewBet from './NewBet';
+import DefaultDrawer from '../shared/cart';
+
+import DrawerStackParamList from '../models/DrawerStackParamList';
+import DrawerScreenNavigationProp from '../models/HomeScreenNavigationProp';
 
 type RootStackParamList = {
 	App: undefined;
@@ -37,6 +42,7 @@ const RootStack = createStackNavigator<RootStackParamList>();
 const AuthStack = createStackNavigator<AuthStackParamList>();
 const HomeStack = createStackNavigator<HomeStackParamList>();
 const Tabs = createBottomTabNavigator<TabStackParamList>();
+const Drawer = createDrawerNavigator<DrawerStackParamList>();
 
 const AuthStackScreen = () => (
 	<AuthStack.Navigator screenOptions={{ headerShown: false }}>
@@ -44,7 +50,9 @@ const AuthStackScreen = () => (
 	</AuthStack.Navigator>
 );
 
-const HomeStackScreen = () => (
+const HomeStackScreen: React.FC<{ navigation: HomeStackParamList }> = ({
+	navigation,
+}) => (
 	<HomeStack.Navigator initialRouteName='RecentGames'>
 		<HomeStack.Screen
 			name='RecentGames'
@@ -54,7 +62,9 @@ const HomeStackScreen = () => (
 	</HomeStack.Navigator>
 );
 
-const TabsScreen = () => (
+const TabsScreen: React.FC<{ navigation: TabStackParamList }> = ({
+	navigation,
+}) => (
 	<Tabs.Navigator
 		initialRouteName='Home'
 		tabBarOptions={{
@@ -81,7 +91,7 @@ const TabsScreen = () => (
 		/>
 		<Tabs.Screen
 			name='NewBet'
-			component={NewBet}
+			component={(navigation) => <DrawerScreen navigation={navigation} />}
 			options={({ navigation, route }) => ({
 				tabBarButton: () => (
 					<NewBetButton
@@ -99,12 +109,29 @@ const TabsScreen = () => (
 	</Tabs.Navigator>
 );
 
-const RootScreen: React.FC<{}> = () => {
+const DrawerScreen: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
+	navigation,
+}) => (
+	<Drawer.Navigator
+		initialRouteName='Cart'
+		drawerPosition='left'
+		drawerContent={() => <DefaultDrawer navigation={navigation} />}
+	>
+		<Drawer.Screen name='Cart' component={NewBet} />
+	</Drawer.Navigator>
+);
+
+const RootScreen: React.FC<{ navigation: HomeStackParamList }> = ({
+	navigation,
+}) => {
 	const { authenticated } = useSelector((state: State) => state.authentication);
 	return (
 		<RootStack.Navigator headerMode='none'>
 			{authenticated ? (
-				<RootStack.Screen name='App' component={HomeStackScreen} />
+				<RootStack.Screen
+					name='App'
+					component={() => <HomeStackScreen navigation={navigation} />}
+				/>
 			) : (
 				<RootStack.Screen name='Auth' component={AuthStackScreen} />
 			)}

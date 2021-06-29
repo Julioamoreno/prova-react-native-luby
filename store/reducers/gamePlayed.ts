@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import FormatString from '../../shared/format/Number';
 
 interface StateGameSelected {
 	numbersSelected: Array<string> | [];
@@ -27,11 +28,7 @@ let initialState = {
 const getNumberAvailable = (state: StateGameSelected) => {
 	let numbers: Array<string> = [];
 	for (let index = 1; index <= state.range; index++) {
-		numbers.push(
-			index.toLocaleString('pt-BR', {
-				minimumIntegerDigits: 2,
-			})
-		);
+		numbers.push(FormatString(index.toString()));
 	}
 
 	if (state.numbersSelected.length > 0) {
@@ -91,6 +88,7 @@ const slice = createSlice({
 				numbersAvailable.splice(valueRandom, 1);
 			}
 			state.numbersSelected.sort().push(...values.sort());
+			state.numbersSelected.sort();
 		},
 		clearGame(state) {
 			state.numbersSelected = [];
