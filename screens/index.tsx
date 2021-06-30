@@ -16,7 +16,6 @@ import NewBet from './NewBet';
 import DefaultDrawer from '../shared/cart';
 
 import DrawerStackParamList from '../models/DrawerStackParamList';
-import DrawerScreenNavigationProp from '../models/HomeScreenNavigationProp';
 
 type RootStackParamList = {
 	App: undefined;
@@ -50,10 +49,8 @@ const AuthStackScreen = () => (
 	</AuthStack.Navigator>
 );
 
-const HomeStackScreen: React.FC<{ navigation: HomeStackParamList }> = ({
-	navigation,
-}) => (
-	<HomeStack.Navigator initialRouteName='RecentGames'>
+const HomeStackScreen: React.FC = () => (
+	<HomeStack.Navigator>
 		<HomeStack.Screen
 			name='RecentGames'
 			component={TabsScreen}
@@ -62,9 +59,7 @@ const HomeStackScreen: React.FC<{ navigation: HomeStackParamList }> = ({
 	</HomeStack.Navigator>
 );
 
-const TabsScreen: React.FC<{ navigation: TabStackParamList }> = ({
-	navigation,
-}) => (
+const TabsScreen: React.FC = () => (
 	<Tabs.Navigator
 		initialRouteName='Home'
 		tabBarOptions={{
@@ -91,7 +86,7 @@ const TabsScreen: React.FC<{ navigation: TabStackParamList }> = ({
 		/>
 		<Tabs.Screen
 			name='NewBet'
-			component={(navigation) => <DrawerScreen navigation={navigation} />}
+			component={DrawerScreen}
 			options={({ navigation, route }) => ({
 				tabBarButton: () => (
 					<NewBetButton
@@ -109,29 +104,22 @@ const TabsScreen: React.FC<{ navigation: TabStackParamList }> = ({
 	</Tabs.Navigator>
 );
 
-const DrawerScreen: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
-	navigation,
-}) => (
+const DrawerScreen: React.FC = () => (
 	<Drawer.Navigator
 		initialRouteName='Cart'
 		drawerPosition='left'
-		drawerContent={() => <DefaultDrawer navigation={navigation} />}
+		drawerContent={() => <DefaultDrawer />}
 	>
 		<Drawer.Screen name='Cart' component={NewBet} />
 	</Drawer.Navigator>
 );
 
-const RootScreen: React.FC<{ navigation: HomeStackParamList }> = ({
-	navigation,
-}) => {
+const RootScreen: React.FC = () => {
 	const { authenticated } = useSelector((state: State) => state.authentication);
 	return (
 		<RootStack.Navigator headerMode='none'>
 			{authenticated ? (
-				<RootStack.Screen
-					name='App'
-					component={() => <HomeStackScreen navigation={navigation} />}
-				/>
+				<RootStack.Screen name='App' component={HomeStackScreen} />
 			) : (
 				<RootStack.Screen name='Auth' component={AuthStackScreen} />
 			)}

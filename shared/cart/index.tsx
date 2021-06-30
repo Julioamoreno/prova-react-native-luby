@@ -6,21 +6,21 @@ import {
 	ScrollView,
 	StyleSheet,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { State, cartTotalAction, cartGameAction } from '../../store';
-import DrawerStackParamList from '../../models/HomeScreenNavigationProp';
+import { EvilIcons, Feather, FontAwesome } from '@expo/vector-icons';
 
 import GameCartPlayed from '../../components/GameCartPlayed';
 
-import { EvilIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import FormatMoney from '../format/Money';
 
-const DefaultDrawer: React.FC<{ navigation: DrawerStackParamList }> = ({
-	navigation,
-}) => {
+const DefaultDrawer: React.FC = () => {
 	const games = useSelector((state: State) => state.cartGame);
 	const { total } = useSelector((state: State) => state.cartTotal);
 	const dispatch = useDispatch();
+	const navigation = useNavigation();
 
 	const deleteGame = (id: number, price: number) => {
 		dispatch(cartGameAction.deleteItemChart({ id }));
@@ -33,7 +33,7 @@ const DefaultDrawer: React.FC<{ navigation: DrawerStackParamList }> = ({
 				<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
 					<TouchableOpacity
 						onPress={() => {
-							navigation.closeDrawer();
+							navigation.dispatch(DrawerActions.closeDrawer());
 						}}
 					>
 						<FontAwesome name='close' size={28} color='#B5C401' />

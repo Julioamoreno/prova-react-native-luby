@@ -1,17 +1,50 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-
-import { MaterialIcons } from '@expo/vector-icons';
+import {
+	useNavigation,
+	DrawerActions,
+	useRoute,
+} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { State } from '../store';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 export default function Header() {
+	const navigation = useNavigation();
+	const { numbersSelected } = useSelector((state: State) => state.gamePlayed);
+
+	const isNewBetScreen = () => {
+		if (!navigation.dangerouslyGetState().routes[0].state) {
+			return false;
+		}
+
+		const currentTabIndex =
+			navigation.dangerouslyGetState().routes[0].state!.index || 0;
+		const currentTabName =
+			navigation.dangerouslyGetState().routes[0].state!.routeNames[
+				currentTabIndex
+			];
+		const isNewBetScreen = currentTabName === 'NewBet';
+		return isNewBetScreen;
+	};
+
 	return (
 		<View style={styles.header}>
 			<View style={styles.title}>
 				<Text style={styles.titleText}>TGL</Text>
 			</View>
-			<TouchableOpacity>
-				<MaterialIcons name='logout' size={24} color='#C1C1C1' />
-			</TouchableOpacity>
+			<View style={styles.right}>
+				{isNewBetScreen() && numbersSelected.length > 0 && (
+					<TouchableOpacity
+						onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+					>
+						<Ionicons name='cart-outline' size={30} color='#B5C401' />
+					</TouchableOpacity>
+				)}
+				<TouchableOpacity style={styles.cartButton}>
+					<MaterialIcons name='logout' size={28} color='#C1C1C1' />
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }
@@ -38,5 +71,14 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontStyle: 'italic',
 		color: '#707070',
+	},
+	right: {
+		flexDirection: 'row',
+		alignSelf: 'flex-end',
+		alignContent: 'flex-end',
+		alignItems: 'flex-end',
+	},
+	cartButton: {
+		marginLeft: 25,
 	},
 });
