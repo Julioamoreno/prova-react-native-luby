@@ -89,10 +89,7 @@ const TabsScreen: React.FC = () => (
 			component={DrawerScreen}
 			options={({ navigation, route }) => ({
 				tabBarButton: () => (
-					<NewBetButton
-						navigation={() => navigation.navigate('NewBet')}
-						thisRoute={route.name === 'NewBet'}
-					/>
+					<NewBetButton navigation={() => navigation.navigate('NewBet')} />
 				),
 			})}
 		/>
