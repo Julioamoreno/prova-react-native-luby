@@ -1,17 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import {
-	useNavigation,
-	DrawerActions,
-	useRoute,
-} from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { State } from '../store';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { State, authenticationAction } from '../store';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 export default function Header() {
 	const navigation = useNavigation();
 	const { numbersSelected } = useSelector((state: State) => state.gamePlayed);
+	const dispatch = useDispatch();
 
 	const isNewBetScreen = () => {
 		if (!navigation.dangerouslyGetState().routes[0].state) {
@@ -28,6 +25,10 @@ export default function Header() {
 		return isNewBetScreen;
 	};
 
+	const logOut = () => {
+		dispatch(authenticationAction.logout());
+	};
+
 	return (
 		<View style={styles.header}>
 			<View style={styles.title}>
@@ -41,7 +42,7 @@ export default function Header() {
 						<Ionicons name='cart-outline' size={30} color='#B5C401' />
 					</TouchableOpacity>
 				)}
-				<TouchableOpacity style={styles.cartButton}>
+				<TouchableOpacity style={styles.cartButton} onPress={logOut}>
 					<MaterialIcons name='logout' size={28} color='#C1C1C1' />
 				</TouchableOpacity>
 			</View>
