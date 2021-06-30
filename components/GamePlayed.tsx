@@ -5,17 +5,17 @@ const GamePlayed: React.FC<{
 	color: string;
 	type: string;
 	numbers: string;
-	gamePrice: string;
+	dateAndPrice: string;
 }> = (props) => {
 	return (
-		<View>
+		<View style={styles.container}>
 			<View style={{ ...styles.col, borderLeftColor: props?.color }}>
 				<View>
 					<Text style={styles.listNumber}>{props.numbers}</Text>
 				</View>
 
-				<View>
-					<Text style={styles.dateAndPriceP}>{props.gamePrice}</Text>
+				<View style={styles.dateAndPriceContainer}>
+					<Text style={styles.dateAndPriceP}>{props.dateAndPrice}</Text>
 				</View>
 				<View>
 					<Text style={{ ...styles.gameType, color: props.color }}>
@@ -28,23 +28,30 @@ const GamePlayed: React.FC<{
 };
 
 const styles = StyleSheet.create({
+	container: {
+		marginBottom: 25,
+	},
 	col: {
 		borderLeftWidth: 5,
 		borderRadius: 4,
 		padding: 5,
+		paddingLeft: 15,
 	},
 	listNumber: {
-		fontSize: 20,
+		fontSize: 12,
 		fontStyle: 'italic',
 		fontWeight: 'bold',
 		color: '#868686',
 	},
+	dateAndPriceContainer: {
+		marginVertical: 5,
+	},
 	dateAndPriceP: {
-		fontSize: 20,
+		fontSize: 12,
 		color: '#868686',
 	},
 	gameType: {
-		fontSize: 20,
+		fontSize: 16,
 		fontStyle: 'italic',
 		fontWeight: 'bold',
 		color: '#868686',

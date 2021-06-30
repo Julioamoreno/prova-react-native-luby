@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	ColorValue,
 } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 const GameType: React.FC<{
 	color: ColorValue;
@@ -33,7 +34,7 @@ const GameType: React.FC<{
 				</Text>
 				{props.checked && (
 					<TouchableOpacity style={styles.closeBtn}>
-						<Text style={styles.closeBtnText}>x</Text>
+						<FontAwesome name='close' size={10} color='#FFFFFF' />
 					</TouchableOpacity>
 				)}
 			</View>
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
 	},
 	containerButton: {
 		flexDirection: 'row',
-		alignItems: 'flex-start',
 	},
 	gameButtonText: {
 		fontSize: 16,
@@ -64,7 +64,9 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		letterSpacing: 0.6,
 	},
-	closeBtn: {},
+	closeBtn: {
+		transform: [{ translateY: 1 }],
+	},
 	closeBtnText: {
 		textAlignVertical: 'top',
 		color: 'white',

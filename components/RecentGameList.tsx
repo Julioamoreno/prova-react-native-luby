@@ -8,6 +8,8 @@ import { State, loadingAction } from '../store';
 
 import GamePlayedModel from '../models/gamePlayed';
 
+import FormatMoney from '../shared/format/Money';
+
 const RecentGamesList: React.FC<{
 	loadingError: boolean;
 	setLoadingError: (value: boolean) => void;
@@ -86,13 +88,9 @@ const RecentGamesList: React.FC<{
 						color={gamePlayed.game.color}
 						type={gamePlayed.game.type}
 						numbers={gamePlayed.numbers}
-						gamePrice={`${moment(gamePlayed.created_at).format(
+						dateAndPrice={`${moment(gamePlayed.created_at).format(
 							'DD/MM/YYYY'
-						)} - (${gamePlayed.price.toLocaleString('pt-BR', {
-							minimumFractionDigits: 2,
-							style: 'currency',
-							currency: 'BRL',
-						})})`}
+						)} - (${FormatMoney(gamePlayed.price)})`}
 					/>
 				))}
 		</View>
@@ -103,6 +101,7 @@ export default RecentGamesList;
 
 const styles = StyleSheet.create({
 	container: {
-		margin: 15,
+		marginLeft: 16,
+		marginTop: 5,
 	},
 });
