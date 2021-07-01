@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import GameButtonsList from '../components/GameButtonsList';
@@ -8,17 +8,24 @@ import DrawerScreenNavigationProp from '../models/HomeScreenNavigationProp';
 
 import { State, gameSelectedAction, gamePlayedAction } from '../store';
 
+import AvailableGamesModel from '../models/games';
 import GameModel from '../models/game';
 import ListNumbers from '../components/ListNumbers';
 
 const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
 	navigation,
 }) => {
+	const [allGames, setAllGames] = useState<AvailableGamesModel>([]);
 	const dispatch = useDispatch();
 	const gameType = useSelector((state: State) => state.selectedGame.gameType);
 	const { type, numbersSelected } = useSelector(
 		(state: State) => state.gamePlayed
 	);
+
+	useEffect(() => {
+		if (allGames.length === 0) return;
+		selectGameHandle(allGames[0]);
+	}, [allGames]);
 	const selectGameHandle = (game: GameModel) => {
 		dispatch(gameSelectedAction.setGameSelectedNewBet({ id: game.id }));
 		dispatch(gamePlayedAction.setGamePlayed({ game }));
@@ -33,6 +40,8 @@ const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
 					<GameButtonsList
 						selectedButton={gameType}
 						selectGameHandle={selectGameHandle}
+						allGames={allGames}
+						setAllGames={(games) => setAllGames(games)}
 					/>
 				</View>
 				{numbersSelected.length === 0 && <GameDescription />}

@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { State, recentsAction } from '../store';
 import GameButtonsList from './GameButtonsList';
 
+import AvailableGamesModel from '../models/games';
 import GameModel from '../models/game';
 
 const RecentGamesBar: React.FC = () => {
+	const [allGames, setAllGames] = useState<AvailableGamesModel>([]);
 	const dispatch = useDispatch();
 	const gameType = useSelector((state: State) => state.recents.id);
 	const selectGameHandle = (game: GameModel) => {
@@ -22,6 +24,8 @@ const RecentGamesBar: React.FC = () => {
 				<GameButtonsList
 					selectedButton={gameType}
 					selectGameHandle={selectGameHandle}
+					allGames={allGames}
+					setAllGames={(games) => setAllGames(games)}
 				/>
 			</View>
 		</View>

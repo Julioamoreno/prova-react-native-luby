@@ -4,7 +4,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import moment from 'moment';
 
 import GamePlayed from './GamePlayed';
-import { State, loadingAction } from '../store';
+import { State, loadingAction, recentsAction } from '../store';
 import API from '../API';
 
 import GamePlayedModel from '../models/gamePlayed';

@@ -19,6 +19,9 @@ const slice = createSlice({
 			}
 			state.id.push(action.payload.id);
 		},
+		clearGame(state) {
+			state.id = [];
+		},
 	},
 });
 

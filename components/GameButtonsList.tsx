@@ -12,9 +12,11 @@ import GameModel from '../models/game';
 const GameButtonsList: React.FC<{
 	selectedButton: number[];
 	selectGameHandle: (game: GameModel) => void;
+	allGames: AvailableGamesModel;
+	setAllGames: (allGames: []) => void;
 }> = (props) => {
 	const dispatch = useDispatch();
-	const [allGames, setAllGames] = useState<AvailableGamesModel>([]);
+	// const [allGames, setAllGames] = useState<AvailableGamesModel>([]);
 
 	useEffect(() => {
 		dispatch(loadingAction.waitLoading());
@@ -24,8 +26,8 @@ const GameButtonsList: React.FC<{
 
 				if (response.status === 200) {
 					dispatch(loadingAction.stopLoading);
-					props.selectGameHandle(response.data[0]);
-					return setAllGames(response.data);
+					// props.selectGameHandle(response.data[0]);
+					return props.setAllGames(response.data);
 				}
 			} catch (err) {
 				return alert(err.message);
@@ -35,8 +37,8 @@ const GameButtonsList: React.FC<{
 
 	return (
 		<View style={styles.gameList}>
-			{!!allGames &&
-				allGames.map((game) => (
+			{!!props.allGames &&
+				props.allGames.map((game) => (
 					<GameType
 						key={game.id}
 						color={game.color}
