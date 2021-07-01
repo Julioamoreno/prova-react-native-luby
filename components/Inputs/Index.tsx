@@ -2,12 +2,18 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-const Input: React.FC<{ label: string }> = (props) => {
+const Input: React.FC<{
+	label: string;
+	value: string;
+	onChange: (text: string) => void;
+}> = (props) => {
 	return (
 		<TextInput
 			style={styles.input}
 			label={props.label}
 			mode='flat'
+			value={props.value}
+			onChangeText={(text) => props.onChange(text)}
 			spellCheck={false}
 			selectionColor='#B5C401'
 			theme={{

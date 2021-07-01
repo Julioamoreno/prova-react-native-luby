@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-const InputPassword = () => {
+const InputPassword: React.FC<{
+	value: string;
+	onChange: (password: string) => void;
+}> = (props) => {
 	const [secureTextEntry, setSecureTextEntry] = useState(true);
 	const handleSecureTextEntry = () => {
 		if (secureTextEntry) {
@@ -17,6 +20,8 @@ const InputPassword = () => {
 			style={styles.input}
 			label='Password'
 			mode='flat'
+			value={props.value}
+			onChangeText={(text) => props.onChange(text)}
 			spellCheck={false}
 			selectionColor='#B5C401'
 			secureTextEntry={secureTextEntry}
