@@ -18,7 +18,7 @@ const GameDescription: React.FC = () => {
 
 const styles = StyleSheet.create({
 	containerDescription: {
-		marginBottom: 15,
+		marginBottom: 10,
 	},
 	descriptionTitle: {
 		fontSize: 17,
