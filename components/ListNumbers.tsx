@@ -1,6 +1,6 @@
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { State } from '../store';
@@ -32,7 +32,7 @@ const ListNumbers: React.FC = () => {
 		<View style={{ ...styles.container, paddingBottom: tabBarHeight }}>
 			<ScrollView
 				showsHorizontalScrollIndicator
-				contentContainerStyle={styles.listNumbers}
+				contentContainerStyle={{ paddingBottom: numbers.length > 0 ? 60 : 0 }}
 				snapToEnd
 			>
 				<View style={styles.containerScrollView}>
