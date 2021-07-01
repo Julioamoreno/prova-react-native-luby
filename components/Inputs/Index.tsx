@@ -6,6 +6,7 @@ const Input: React.FC<{
 	label: string;
 	value: string;
 	onChange: (text: string) => void;
+	onFocus?: () => void;
 }> = (props) => {
 	return (
 		<TextInput
@@ -14,6 +15,7 @@ const Input: React.FC<{
 			mode='flat'
 			value={props.value}
 			onChangeText={(text) => props.onChange(text)}
+			onChange={props.onFocus}
 			spellCheck={false}
 			selectionColor='#B5C401'
 			theme={{

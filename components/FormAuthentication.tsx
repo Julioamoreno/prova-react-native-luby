@@ -86,6 +86,33 @@ const FormAuthentication: React.FC = () => {
 		}
 	};
 
+	const handleResetPassword = async (email: string) => {
+		const regexEmail = /\S+@\S+\.\S+/;
+		const isValidEmail = regexEmail.test(email);
+		if (!email || !isValidEmail) {
+			return setError('Digite um email valido');
+		}
+		try {
+			const response = await API.post('/forgotpassword', {
+				email,
+				link: 'http://julioarmando.com.br',
+			});
+
+			if (response.status === 200) {
+				handleError('Uma mensagem foi enviada para seu email');
+			}
+		} catch (err) {
+			if (err.response === undefined) {
+				return handleError(err.message);
+			}
+			if (err.response.status === 403) {
+				setError('Email não cadastrado');
+				return handleError('Verifique o email digitado');
+			}
+			handleError(err.message);
+		}
+	};
+
 	const handleLogin = () => {
 		dispatch(authenticationAction.login({}));
 	};
@@ -104,7 +131,16 @@ const FormAuthentication: React.FC = () => {
 			/>
 		);
 	} else if (page === 'reset') {
-		return <FormResetPassword setPage={handleSetPage} />;
+		return (
+			<FormResetPassword
+				setPage={handleSetPage}
+				resetPassword={handleResetPassword}
+				error={error}
+				clearError={() => {
+					setError(null);
+				}}
+			/>
+		);
 	} else {
 		return (
 			<View style={styles.formContainer}>
