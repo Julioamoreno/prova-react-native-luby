@@ -20,7 +20,7 @@ const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
 		(state: State) => state.gamePlayed
 	);
 	const selectGameHandle = (game: GameModel) => {
-		dispatch(gameSelectedAction.setGameSelected({ id: game.id }));
+		dispatch(gameSelectedAction.setGameSelectedNewBet({ id: game.id }));
 		dispatch(gamePlayedAction.setGamePlayed({ game }));
 	};
 

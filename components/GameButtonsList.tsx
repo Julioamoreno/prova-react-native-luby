@@ -24,6 +24,7 @@ const GameButtonsList: React.FC<{
 
 				if (response.status === 200) {
 					dispatch(loadingAction.stopLoading);
+					props.selectGameHandle(response.data[0]);
 					return setAllGames(response.data);
 				}
 			} catch (err) {

@@ -36,8 +36,7 @@ const ListNumbers: React.FC = () => {
 				snapToEnd
 			>
 				<View style={styles.containerScrollView}>
-					{!loading &&
-						range &&
+					{range &&
 						Array.apply(1, Array(range)).map((_x, idx) => (
 							<ElipseNumber
 								key={idx}

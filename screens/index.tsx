@@ -50,10 +50,20 @@ const AuthStackScreen = () => (
 );
 
 const HomeStackScreen: React.FC = () => (
-	<HomeStack.Navigator>
+	<HomeStack.Navigator initialRouteName='RecentGames'>
 		<HomeStack.Screen
 			name='RecentGames'
-			component={TabsScreen}
+			component={RecentGames}
+			options={{ headerTitle: () => <Header />, headerStyle: { height: 80 } }}
+		/>
+	</HomeStack.Navigator>
+);
+
+const NewBetStackScreen: React.FC = () => (
+	<HomeStack.Navigator initialRouteName='NewBet'>
+		<HomeStack.Screen
+			name='NewBet'
+			component={NewBet}
 			options={{ headerTitle: () => <Header />, headerStyle: { height: 80 } }}
 		/>
 	</HomeStack.Navigator>
@@ -69,12 +79,14 @@ const TabsScreen: React.FC = () => (
 				height: 70,
 				alignItems: 'center',
 				alignContent: 'space-between',
+				borderTopStartRadius: 20,
+				borderTopEndRadius: 20,
 			},
 		}}
 	>
 		<Tabs.Screen
 			name='Home'
-			component={RecentGames}
+			component={HomeStackScreen}
 			options={({ navigation, route }) => ({
 				tabBarButton: () => (
 					<HomeButton
@@ -87,7 +99,7 @@ const TabsScreen: React.FC = () => (
 		<Tabs.Screen
 			name='NewBet'
 			component={DrawerScreen}
-			options={({ navigation, route }) => ({
+			options={({ navigation }) => ({
 				tabBarButton: () => (
 					<NewBetButton navigation={() => navigation.navigate('NewBet')} />
 				),
@@ -103,11 +115,11 @@ const TabsScreen: React.FC = () => (
 
 const DrawerScreen: React.FC = () => (
 	<Drawer.Navigator
-		initialRouteName='Cart'
-		drawerPosition='left'
+		initialRouteName='NewBet'
+		drawerPosition='right'
 		drawerContent={() => <DefaultDrawer />}
 	>
-		<Drawer.Screen name='Cart' component={NewBet} />
+		<Drawer.Screen name='NewBet' component={NewBetStackScreen} />
 	</Drawer.Navigator>
 );
 
@@ -116,7 +128,7 @@ const RootScreen: React.FC = () => {
 	return (
 		<RootStack.Navigator headerMode='none'>
 			{authenticated ? (
-				<RootStack.Screen name='App' component={HomeStackScreen} />
+				<RootStack.Screen name='App' component={TabsScreen} />
 			) : (
 				<RootStack.Screen name='Auth' component={AuthStackScreen} />
 			)}

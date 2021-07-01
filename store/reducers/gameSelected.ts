@@ -13,6 +13,9 @@ const slice = createSlice({
 		setGameSelected(state, action) {
 			state.gameType.splice(state.gameType.indexOf(action.payload.id), 1);
 		},
+		setGameSelectedNewBet(state, action) {
+			state.gameType = [action.payload.id];
+		},
 	},
 });
 

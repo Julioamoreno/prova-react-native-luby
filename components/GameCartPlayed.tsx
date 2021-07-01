@@ -14,29 +14,26 @@ const GameCartPlayed: React.FC<{
 	const DateNow = Date.now();
 
 	return (
-		<View>
-			<View style={{ ...styles.col, borderLeftColor: props?.color }}>
-				<View>
-					<Text style={styles.listNumber}>{props.numbers}</Text>
-				</View>
-
-				<View style={styles.row}>
-					<Text style={styles.dateAndPriceP}>
-						{moment(DateNow).format('DD/MM/yyyy')} - (
-						{FormatMoney(props.gamePrice)})
-					</Text>
-					<Feather
-						name='trash-2'
-						size={24}
-						color='black'
-						onPress={props.deleteGame}
-					/>
-				</View>
-				<View>
-					<Text style={{ ...styles.gameType, color: props.color }}>
-						{props?.type}
-					</Text>
-				</View>
+		<View style={{ ...styles.col, borderLeftColor: props?.color }}>
+			<View>
+				<Text style={styles.listNumber}>{props.numbers}</Text>
+			</View>
+			<View style={styles.row}>
+				<Text style={styles.dateAndPriceP}>
+					{moment(DateNow).format('DD/MM/yyyy')} - (
+					{FormatMoney(props.gamePrice)})
+				</Text>
+				<Feather
+					name='trash-2'
+					size={24}
+					color='black'
+					onPress={props.deleteGame}
+				/>
+			</View>
+			<View>
+				<Text style={{ ...styles.gameType, color: props.color }}>
+					{props?.type}
+				</Text>
 			</View>
 		</View>
 	);
@@ -52,7 +49,9 @@ const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginVertical: 10,
+		alignContent: 'center',
+		width: '100%',
+		marginTop: 5,
 	},
 	listNumber: {
 		fontSize: 16,
