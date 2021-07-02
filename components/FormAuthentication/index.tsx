@@ -34,7 +34,7 @@ const FormAuthentication: React.FC = () => {
 		dispatch(recentsAction.setGame([...bets]));
 	};
 
-	const handleError = (message: string) => {
+	const handleMessage = (message: string) => {
 		alert(message);
 	};
 
@@ -57,11 +57,11 @@ const FormAuthentication: React.FC = () => {
 		const regexEmail = /\S+@\S+\.\S+/;
 		const isValidEmail = regexEmail.test(email);
 		if (!isValidEmail) {
-			return handleError('O email não é válido, verifique o campo de email');
+			return handleMessage('O email não é válido, verifique o campo de email');
 		}
 		if (!name || !email || !password) {
 			setError('Verifique os campos digitados');
-			return handleError('Verifique os campos digitados');
+			return handleMessage('Verifique os campos digitados');
 		}
 		try {
 			const response = await API.post('/user', {
@@ -76,14 +76,14 @@ const FormAuthentication: React.FC = () => {
 			}
 		} catch (err) {
 			if (err.response === undefined) {
-				return handleError(err.message);
+				return handleMessage(err.message);
 			}
 			if (err.response.status === 422) {
 				setError(err.response.data.errors[0].message);
-				return handleError('Email já cadastrado');
+				return handleMessage('Email já cadastrado');
 			} else {
 				setError('Ocorreu um erro');
-				return handleError(err.message);
+				return handleMessage(err.message);
 			}
 		}
 	};
@@ -101,22 +101,53 @@ const FormAuthentication: React.FC = () => {
 			});
 
 			if (response.status === 200) {
-				handleError('Uma mensagem foi enviada para seu email');
+				handleMessage('Uma mensagem foi enviada para seu email');
 			}
 		} catch (err) {
 			if (err.response === undefined) {
-				return handleError(err.message);
+				return handleMessage(err.message);
 			}
 			if (err.response.status === 403) {
 				setError('Email não cadastrado');
-				return handleError('Verifique o email digitado');
+				return handleMessage('Verifique o email digitado');
 			}
-			handleError(err.message);
+			handleMessage(err.message);
 		}
 	};
 
-	const handleLogin = () => {
-		dispatch(authenticationAction.login({}));
+	const handleErrorResponse = () => {
+		setError('Email ou Senha incorretos');
+		return handleMessage('Email ou Senha incorretos, tente novamente.');
+	};
+
+	const handleLogin = async (email: string, password: string) => {
+		const regexEmail = /\S+@\S+\.\S+/;
+		const isValidEmail = regexEmail.test(email);
+		if (!isValidEmail) {
+			return handleMessage('O email não é válido, verifique o campo de email');
+		}
+		if (!email || !password) {
+			return handleMessage('Verifique os campos digitados');
+		}
+		try {
+			const response = await API.post('/login', {
+				email,
+				password,
+			});
+
+			if (response.status === 200) {
+				return handleSuccessResponse(response);
+			}
+		} catch (err) {
+			if (err.response === undefined) {
+				return handleMessage(err.message);
+			}
+			if (err.response.status === 400) {
+				handleErrorResponse();
+				return;
+			}
+			handleMessage(err.message);
+		}
 	};
 
 	const handleSetPage = (page: string) => {
@@ -164,7 +195,10 @@ const FormAuthentication: React.FC = () => {
 					>
 						I forget my password
 					</ForgetPassword>
-					<FormButton textButton='Log In' onPress={handleLogin} />
+					<FormButton
+						textButton='Log In'
+						onPress={() => handleLogin(email, password)}
+					/>
 				</Form>
 				<SignUpButton onPress={() => setPage('registration')} />
 			</FormContainer>

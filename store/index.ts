@@ -1,4 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+	configureStore,
+	getDefaultMiddleware,
+	combineReducers,
+} from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+	persistReducer,
+	FLUSH,
+	REHYDRATE,
+	PAUSE,
+	PERSIST,
+	PURGE,
+	REGISTER,
+} from 'redux-persist';
 
 import authentication from './reducers/authentication';
 import loading from './reducers/loading';
@@ -8,16 +22,31 @@ import gamePlayed from './reducers/gamePlayed';
 import cartGame from './reducers/cartGame';
 import cartTotal from './reducers/cartTotal';
 
+const reducers = combineReducers({
+	authentication: authentication.reducer,
+	loading: loading.reducer,
+	recents: recentsSelectedGame.reducer,
+	selectedGame: gameSelected.reducer,
+	gamePlayed: gamePlayed.reducer,
+	cartGame: cartGame.reducer,
+	cartTotal: cartTotal.reducer,
+});
+
+const persistConfig = {
+	key: 'root',
+	storage: AsyncStorage,
+	whitelist: ['authentication'],
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 const store = configureStore({
-	reducer: {
-		authentication: authentication.reducer,
-		loading: loading.reducer,
-		recents: recentsSelectedGame.reducer,
-		selectedGame: gameSelected.reducer,
-		gamePlayed: gamePlayed.reducer,
-		cartGame: cartGame.reducer,
-		cartTotal: cartTotal.reducer,
-	},
+	reducer: persistedReducer,
+	middleware: getDefaultMiddleware({
+		serializableCheck: {
+			ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+		},
+	}),
 });
 
 export type State = ReturnType<typeof store.getState>;

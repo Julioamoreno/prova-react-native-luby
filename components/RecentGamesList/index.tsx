@@ -18,54 +18,45 @@ const RecentGamesList: React.FC<{
 	setLoadingError: (value: boolean) => void;
 }> = (props) => {
 	const dispatch = useDispatch();
-	const [allGamesPlayed, setAllGamesPlayed] = useState<GamePlayedModel>([
-		{
-			numbers: '01,04',
-			created_at: '',
-			id: 1,
-			price: 2.5,
-			game: {
-				id: 1,
-				type: 'Lotofácil',
-				color: '#7F3992',
-			},
-		},
-		{
-			numbers: '01,04',
-			created_at: '',
-			id: 2,
-			price: 4.5,
-			game: {
-				type: 'Mega-Sena',
-				color: '#01AC66',
-				id: 2,
-			},
-		},
-		{
-			numbers: '01,04',
-			created_at: '',
-			id: 3,
-			price: 2,
-			game: {
-				type: 'Lotomania',
-				color: '#F79C31',
-				id: 3,
-			},
-		},
-	]);
+	const [allGamesPlayed, setAllGamesPlayed] = useState<GamePlayedModel>([]);
+	const [url] = useState('/bets');
 	const gameType = useSelector((state: State) => state.recents.id);
 	const loading = useSelector((state: State) => state.loading);
-
+	const { user } = useSelector((state: State) => state.authentication);
 	const [gamePlayedFiltered, setGamePlayedFiltered] = useState<GamePlayedModel>(
 		[]
 	);
 
 	useEffect(() => {
-		dispatch(loadingAction.stopLoading());
-	}, []);
+		dispatch(loadingAction.waitLoading());
+		(async () => {
+			try {
+				const response = await API.get(url, {
+					headers: { Authorization: `Bearer ${user.token}` },
+				});
+				if (response.status === 200) {
+					dispatch(loadingAction.stopLoading());
+					setAllGamesPlayed(response.data.data);
+				}
+			} catch (err) {
+				dispatch(loadingAction.stopLoading());
+				props.setLoadingError(true);
+				if (err.response === undefined) {
+					return;
+				}
+				if (err.response.status === 401) {
+					return alert('Não Autorizado');
+				}
+				alert(err.message);
+			}
+		})();
+	}, [user, url, dispatch]);
 
 	useEffect(() => {
-		if (gameType.length === 0) {
+		if (
+			gameType.length === 0 ||
+			gameType.every((value) => value === undefined)
+		) {
 			setGamePlayedFiltered(allGamesPlayed);
 			return;
 		}
