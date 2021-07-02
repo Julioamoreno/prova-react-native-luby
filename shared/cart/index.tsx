@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	ScrollView,
-	StyleSheet,
-} from 'react-native';
+import { TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +9,24 @@ import { EvilIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import GameCartPlayed from '../../components/GameCartPlayed';
 
 import FormatMoney from '../format/Money';
+
+import {
+	Cart,
+	Container,
+	CloseContainer,
+	ContainerTitle,
+	TitleCart,
+	CartItens,
+	EmptyCart,
+	ContainerTotal,
+	TotalTextBoldLeft,
+	TotalTextBoldRight,
+	TotalTextLight,
+	SaveContainer,
+	SaveButton,
+	SaveButtonContainer,
+	SaveText,
+} from './styles';
 
 const DefaultDrawer: React.FC = () => {
 	const games = useSelector((state: State) => state.cartGame);
@@ -28,9 +40,9 @@ const DefaultDrawer: React.FC = () => {
 	};
 
 	return (
-		<View style={{ flex: 6 }}>
-			<View style={styles.container}>
-				<View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+		<Cart>
+			<Container>
+				<CloseContainer>
 					<TouchableOpacity
 						onPress={() => {
 							navigation.dispatch(DrawerActions.closeDrawer());
@@ -38,15 +50,13 @@ const DefaultDrawer: React.FC = () => {
 					>
 						<FontAwesome name='close' size={28} color='#B5C401' />
 					</TouchableOpacity>
-				</View>
-				<View style={styles.cartItens}>
-					<View style={styles.containerTitle}>
+				</CloseContainer>
+				<CartItens>
+					<ContainerTitle>
 						<EvilIcons name='cart' size={35} color='#B5C401' />
-						<Text style={styles.titleCart}>CART</Text>
-					</View>
-					{games.length === 0 && (
-						<Text style={styles.emptyCart}>Carrinho vazio</Text>
-					)}
+						<TitleCart>CART</TitleCart>
+					</ContainerTitle>
+					{games.length === 0 && <EmptyCart>Carrinho vazio</EmptyCart>}
 					<ScrollView>
 						{games.map((game, idx) => (
 							<GameCartPlayed
@@ -59,105 +69,25 @@ const DefaultDrawer: React.FC = () => {
 							/>
 						))}
 					</ScrollView>
-				</View>
-				<View style={styles.containerTotal}>
-					<Text style={{ ...styles.totalTextBold, flex: 3 }}>
-						CART <Text style={styles.totalTextLight}>TOTAL</Text>
-					</Text>
+				</CartItens>
+				<ContainerTotal>
+					<TotalTextBoldLeft>
+						CART <TotalTextLight>TOTAL</TotalTextLight>
+					</TotalTextBoldLeft>
 
-					<Text
-						style={{
-							...styles.totalTextBold,
-							flex: 1,
-						}}
-					>
-						{FormatMoney(total)}
-					</Text>
-				</View>
-			</View>
-			<View style={styles.saveContainer}>
-				<TouchableOpacity style={styles.saveButton}>
-					<View style={styles.saveButtonContainer}>
-						<Text style={styles.saveText}>Save</Text>
+					<TotalTextBoldRight>{FormatMoney(total)}</TotalTextBoldRight>
+				</ContainerTotal>
+			</Container>
+			<SaveContainer>
+				<SaveButton>
+					<SaveButtonContainer>
+						<SaveText>Save</SaveText>
 						<Feather name='arrow-right' size={28} color='#B5C401' />
-					</View>
-				</TouchableOpacity>
-			</View>
-		</View>
+					</SaveButtonContainer>
+				</SaveButton>
+			</SaveContainer>
+		</Cart>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 5,
-		alignContent: 'center',
-		alignItems: 'baseline',
-		marginHorizontal: 20,
-		marginBottom: 45,
-		marginTop: 20,
-	},
-	containerTitle: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		marginBottom: 25,
-	},
-	titleCart: {
-		color: '#707070',
-		fontSize: 24,
-		fontWeight: 'bold',
-		fontStyle: 'italic',
-	},
-	cartItens: {
-		flex: 4,
-	},
-	emptyCart: {
-		marginVertical: 30,
-		marginHorizontal: 10,
-		color: '#707070',
-		fontSize: 18,
-	},
-	containerTotal: {
-		flexDirection: 'row',
-	},
-
-	totalTextBold: {
-		fontSize: 16,
-		fontWeight: 'bold',
-		color: '#707070',
-	},
-	totalTextLight: {
-		fontSize: 16,
-		fontWeight: 'normal',
-		color: '#707070',
-	},
-	saveContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		height: 130,
-		marginEnd: 20,
-		alignItems: 'center',
-		alignSelf: 'stretch',
-		alignContent: 'center',
-		backgroundColor: '#EBEBEB',
-		borderBottomRightRadius: 10,
-	},
-	saveButton: {
-		flex: 1,
-		alignContent: 'flex-end',
-	},
-	saveButtonContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		alignSelf: 'center',
-	},
-	saveText: {
-		color: '#B5C401',
-		fontSize: 30,
-		fontWeight: 'bold',
-		fontStyle: 'italic',
-		textAlign: 'center',
-		marginEnd: 10,
-	},
-});
 
 export default DefaultDrawer;

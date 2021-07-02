@@ -60,7 +60,10 @@ const HomeStackScreen: React.FC = () => (
 );
 
 const NewBetStackScreen: React.FC = () => (
-	<HomeStack.Navigator initialRouteName='NewBet'>
+	<HomeStack.Navigator
+		initialRouteName='NewBet'
+		screenOptions={{ cardStyle: { backgroundColor: '#F7F7F7' } }}
+	>
 		<HomeStack.Screen
 			name='NewBet'
 			component={NewBet}
