@@ -6,3 +6,7 @@ export const Container = styled.View`
 `;
 
 export const Text = styled.Text``;
+
+export const GameList = styled.View`
+	margin-bottom: 150px;
+`;

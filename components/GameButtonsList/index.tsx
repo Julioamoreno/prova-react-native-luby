@@ -3,6 +3,8 @@ import { ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import GameType from '../GameType';
 
+import Toast from 'react-native-simple-toast';
+
 import API from '../../API';
 
 import { loadingAction } from '../../store';
@@ -16,6 +18,7 @@ const GameButtonsList: React.FC<{
 	selectGameHandle: (game: GameModel) => void;
 	allGames: AvailableGamesModel;
 	setAllGames: (allGames: []) => void;
+	screenName: string;
 }> = (props) => {
 	const dispatch = useDispatch();
 
@@ -31,7 +34,7 @@ const GameButtonsList: React.FC<{
 				}
 			} catch (err) {
 				dispatch(loadingAction.stopLoading);
-				return alert(err.message);
+				return Toast.show(err.message);
 			}
 		})();
 	}, [dispatch]);
@@ -45,6 +48,7 @@ const GameButtonsList: React.FC<{
 							key={game.id}
 							color={game.color}
 							gameType={game.type}
+							thisRecentGamesScreen={props.screenName === 'RecentGames'}
 							checked={props.selectedButton?.includes(game.id)}
 							onPress={() => props.selectGameHandle(game)}
 						/>

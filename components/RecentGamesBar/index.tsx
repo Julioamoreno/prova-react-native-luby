@@ -27,6 +27,7 @@ const RecentGamesBar: React.FC = () => {
 					selectGameHandle={selectGameHandle}
 					allGames={allGames}
 					setAllGames={(games) => setAllGames(games)}
+					screenName='RecentGames'
 				/>
 			</Content>
 		</Container>

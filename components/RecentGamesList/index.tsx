@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, ScrollView } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import moment from 'moment';
 
 import GamePlayed from '../GamePlayed';
@@ -11,7 +12,7 @@ import GamePlayedModel from '../../models/gamePlayed';
 
 import FormatMoney from '../../shared/format/Money';
 
-import { Container, Text } from './styles';
+import { Container, Text, GameList } from './styles';
 
 const RecentGamesList: React.FC<{
 	loadingError: boolean;
@@ -45,9 +46,9 @@ const RecentGamesList: React.FC<{
 					return;
 				}
 				if (err.response.status === 401) {
-					return alert('Não Autorizado');
+					return Toast.show('Não Autorizado');
 				}
-				alert(err.message);
+				Toast.show(err.message);
 			}
 		})();
 	}, [user, url, dispatch]);
@@ -75,18 +76,22 @@ const RecentGamesList: React.FC<{
 			{!loading && props.loadingError && (
 				<Text>Não foi possível carregar as informações do servidor</Text>
 			)}
-			{!loading &&
-				gamePlayedFiltered.map((gamePlayed, idx) => (
-					<GamePlayed
-						key={idx}
-						color={gamePlayed.game.color}
-						type={gamePlayed.game.type}
-						numbers={gamePlayed.numbers}
-						dateAndPrice={`${moment(gamePlayed.created_at).format(
-							'DD/MM/YYYY'
-						)} - (${FormatMoney(gamePlayed.price)})`}
-					/>
-				))}
+			<ScrollView>
+				<GameList>
+					{!loading &&
+						gamePlayedFiltered.map((gamePlayed, idx) => (
+							<GamePlayed
+								key={idx}
+								color={gamePlayed.game.color}
+								type={gamePlayed.game.type}
+								numbers={gamePlayed.numbers}
+								dateAndPrice={`${moment(gamePlayed.created_at).format(
+									'DD/MM/YYYY'
+								)} - (${FormatMoney(gamePlayed.price)})`}
+							/>
+						))}
+				</GameList>
+			</ScrollView>
 		</Container>
 	);
 };

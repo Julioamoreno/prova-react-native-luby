@@ -1,7 +1,7 @@
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import { State } from '../../store';
 import { gamePlayedAction } from '../../store/index';
@@ -20,13 +20,12 @@ const ListNumbers: React.FC = () => {
 		(state: State) => state.gamePlayed.numbersSelected
 	);
 	const dispatch = useDispatch();
-	const tabBarHeight = useBottomTabBarHeight();
 
 	const selectNumberHandle = (number: string) => {
 		dispatch(gamePlayedAction.setNumberSelected({ numbersSelected: number }));
 		const gameIsComplete = max_number === numbersSelected.length;
 		if (gameIsComplete && !numbersSelected.includes(number)) {
-			alert('O jogo já está completo.');
+			Toast.show('O jogo já está completo.');
 		}
 	};
 

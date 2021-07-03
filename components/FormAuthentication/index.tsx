@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 import { AxiosResponse } from 'axios';
 import API from '../../API';
@@ -35,7 +36,7 @@ const FormAuthentication: React.FC = () => {
 	};
 
 	const handleMessage = (message: string) => {
-		alert(message);
+		Toast.show(message);
 	};
 
 	const handleSuccessResponse = async (response: AxiosResponse) => {

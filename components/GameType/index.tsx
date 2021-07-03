@@ -12,6 +12,7 @@ const GameType: React.FC<{
 	color: string;
 	gameType: string;
 	checked: boolean;
+	thisRecentGamesScreen: boolean;
 	onPress: () => void;
 }> = (props) => {
 	return (
@@ -24,7 +25,7 @@ const GameType: React.FC<{
 				<GameButtonText isChecked={props.checked} color={props.color}>
 					{props.gameType}
 				</GameButtonText>
-				{props.checked && (
+				{props.checked && props.thisRecentGamesScreen && (
 					<CloseBtn>
 						<FontAwesome name='close' size={10} color='#FFFFFF' />
 					</CloseBtn>

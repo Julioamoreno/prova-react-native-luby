@@ -16,6 +16,7 @@ export const Title = styled.Text`
 	border-bottom-right-radius: 5px;
 	width: 80px;
 	align-items: center;
+	text-align: center;
 `;
 
 export const TitleText = styled.Text`
@@ -27,7 +28,6 @@ export const TitleText = styled.Text`
 
 export const Right = styled.View`
 	flex-direction: row;
-	align-self: flex-end;
 	align-content: flex-end;
 	align-items: flex-end;
 `;

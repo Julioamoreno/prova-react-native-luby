@@ -54,7 +54,7 @@ const HomeStackScreen: React.FC = () => (
 		<HomeStack.Screen
 			name='RecentGames'
 			component={RecentGames}
-			options={{ headerTitle: () => <Header />, headerStyle: { height: 80 } }}
+			options={{ headerTitle: () => <Header />, headerStyle: { height: 100 } }}
 		/>
 	</HomeStack.Navigator>
 );
@@ -67,7 +67,7 @@ const NewBetStackScreen: React.FC = () => (
 		<HomeStack.Screen
 			name='NewBet'
 			component={NewBet}
-			options={{ headerTitle: () => <Header />, headerStyle: { height: 80 } }}
+			options={{ headerTitle: () => <Header />, headerStyle: { height: 100 } }}
 		/>
 	</HomeStack.Navigator>
 );

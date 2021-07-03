@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeScreenNavigationProp from '../../models/HomeScreenNavigationProp';
+import Toast from 'react-native-simple-toast';
 
 import {
 	State,
@@ -27,21 +28,27 @@ const GameAction: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
 	const dispatch = useDispatch();
 	const game = useSelector((state: State) => state.gamePlayed);
 
+	const handleMessage = (message: string) => {
+		Toast.show(message, Toast.LONG);
+	};
+
 	const clearGame = () => {
 		if (game.numbersSelected.length === 0) {
-			alert('O jogo já está limpo');
+			handleMessage('O jogo já está limpo');
 		}
 		dispatch(gamePlayedAction.clearGame());
 	};
 	const completeGameHandle = () => {
 		if (game.numbersSelected.length === game.max_number) {
-			return alert('O jogo já está completo');
+			return handleMessage('O jogo já está completo');
 		}
 		dispatch(gamePlayedAction.completeGame());
 	};
 	const addToCart = () => {
 		if (game.numbersSelected.length < game.max_number) {
-			return alert('Termine de completar o jogo para adicionar ao carrinho.');
+			return handleMessage(
+				'Termine de completar o jogo para adicionar ao carrinho.'
+			);
 		}
 		dispatch(
 			cartGameAction.newItemCart({

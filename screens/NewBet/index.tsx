@@ -52,6 +52,7 @@ const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
 						selectedButton={gameType}
 						selectGameHandle={selectGameHandle}
 						allGames={allGames}
+						screenName='NewBet'
 						setAllGames={(games) => setAllGames(games)}
 					/>
 				</ContainerGameBar>

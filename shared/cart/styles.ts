@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 
-export const Cart = styled.View`
+export const Cart = styled.SafeAreaView`
 	flex: 6;
+	margin-top: 10px;
 `;
 
 export const Container = styled.View`
