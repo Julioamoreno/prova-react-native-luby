@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
+import {
+	Dimensions,
+	StyleSheet,
+	Platform,
+	ActivityIndicator,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 
@@ -19,12 +24,14 @@ import RecentGamesPlayedModel from '../../models/gamePlayed';
 import User from '../../models/user';
 
 import { FormContainer, FormTitle, Form, ForgetPassword } from './styles';
+import { colors } from '../../styles/colors';
 
 const FormAuthentication: React.FC = () => {
 	const [page, setPage] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState<string | null>();
+	const [waitAPI, setWaitAPI] = useState(false);
 	const dispatch = useDispatch();
 
 	const goHomePage = (user: User) => {
@@ -36,7 +43,7 @@ const FormAuthentication: React.FC = () => {
 	};
 
 	const handleMessage = (message: string) => {
-		Toast.show(message);
+		Toast.show(message, Toast.SHORT);
 	};
 
 	const handleSuccessResponse = async (response: AxiosResponse) => {
@@ -44,6 +51,7 @@ const FormAuthentication: React.FC = () => {
 			name: response.data.user.name,
 			email: response.data.user.email,
 			token: response.data.token,
+			id: response.data.user.id,
 		};
 
 		saveRecentsBets(response.data.user.bets);
@@ -131,15 +139,18 @@ const FormAuthentication: React.FC = () => {
 			return handleMessage('Verifique os campos digitados');
 		}
 		try {
+			setWaitAPI(true);
 			const response = await API.post('/login', {
 				email,
 				password,
 			});
 
 			if (response.status === 200) {
+				setWaitAPI(false);
 				return handleSuccessResponse(response);
 			}
 		} catch (err) {
+			setWaitAPI(false);
 			if (err.response === undefined) {
 				return handleMessage(err.message);
 			}
@@ -177,9 +188,21 @@ const FormAuthentication: React.FC = () => {
 		);
 	} else {
 		return (
-			<FormContainer style={{ width: Dimensions.get('window').width - 50 }}>
-				<FormTitle>Authentication</FormTitle>
-				<Form>
+			<FormContainer
+				style={{
+					width: Dimensions.get('window').width - 70,
+					...styles.elevation,
+				}}
+			>
+				{waitAPI && <ActivityIndicator style={{ position: 'absolute' }} />}
+				<FormTitle color={colors.gray_70}>Authentication</FormTitle>
+				<Form
+					style={{
+						...styles.elevation,
+					}}
+					background={colors.white}
+					border={colors.alto_gray}
+				>
 					<Input
 						label='Email'
 						value={email}
@@ -193,6 +216,7 @@ const FormAuthentication: React.FC = () => {
 						onPress={() => {
 							setPage('reset');
 						}}
+						color={colors.silver}
 					>
 						I forget my password
 					</ForgetPassword>
@@ -208,3 +232,17 @@ const FormAuthentication: React.FC = () => {
 };
 
 export default FormAuthentication;
+
+const styles = StyleSheet.create({
+	elevation: {
+		...Platform.select({
+			android: {
+				shadowColor: '#5e5e5e',
+				shadowOpacity: 0.2,
+				shadowOffset: { width: 2, height: 1 },
+				shadowRadius: 5,
+				elevation: 10,
+			},
+		}),
+	},
+});

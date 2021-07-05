@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
+interface Props {
+	color: string;
+}
+
 export const Col = styled.View`
 	border-left-width: 5px;
 	border-radius: 4px;
@@ -16,21 +20,24 @@ export const Row = styled.View`
 	margin-top: 5px;
 `;
 
-export const ListNumber = styled.Text`
+export const ListNumber = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 16px;
 	font-style: italic;
 	font-weight: bold;
-	color: #868686;
+	color: ${(props) => props.color};
 `;
 
-export const DateAndPriceP = styled.Text`
+export const DateAndPriceP = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 16px;
-	color: #868686;
+	color: ${(props) => props.color};
 `;
 
-export const GameType = styled.Text`
+export const GameType = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 20px;
 	font-style: italic;
 	font-weight: bold;
-	color: #868686;
+	color: ${(props) => props.color};
 `;

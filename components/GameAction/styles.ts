@@ -1,5 +1,26 @@
 import styled from 'styled-components/native';
 
+interface CompleteButtonProps {
+	background: string;
+	border: string;
+}
+
+interface ButtonContentProps {
+	color: string;
+}
+
+interface ClearButtonProps {
+	background: string;
+	border: string;
+}
+
+interface AddCartProps {
+	background: string;
+}
+interface ButtonContentAddCartProps {
+	color: string;
+}
+
 export const Container = styled.View`
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -8,40 +29,41 @@ export const Container = styled.View`
 	align-self: center;
 `;
 
-export const CompleteButton = styled.TouchableOpacity`
+export const CompleteButton = styled.TouchableOpacity<CompleteButtonProps>`
 	align-items: baseline;
 	justify-content: center;
-	background-color: #f7f7f7;
-	border-color: #b5c401;
+	background-color: ${(props) => props.background};
+	border-color: ${(props) => props.border};
 	border-width: 1px;
 	border-radius: 5px;
-	width: 110px;
+	width: 30%;
 	height: 36px;
 `;
-export const ButtonContent = styled.Text`
-	color: #b5c401;
+export const ButtonContent = styled.Text<ButtonContentProps>`
+	font-family: Helvetica-Neue;
+	color: ${(props) => props.color};
 	font-weight: bold;
 	align-self: center;
 `;
 
-export const ClearButton = styled.TouchableOpacity`
+export const ClearButton = styled.TouchableOpacity<ClearButtonProps>`
 	align-items: baseline;
 	justify-content: center;
-	background-color: #f7f7f7;
-	border-color: #b5c401;
+	background-color: ${(props) => props.background};
+	border-color: ${(props) => props.border};
 	border-width: 1px;
 	border-radius: 5px;
-	width: 87px;
+	width: 25%;
 	height: 36px;
 	margin-right: 15px;
 	margin-left: 15px;
 `;
 
-export const AddCartButton = styled.TouchableOpacity`
-	width: 122px;
+export const AddCartButton = styled.TouchableOpacity<AddCartProps>`
+	width: 35%;
 	height: 36px;
 	justify-content: center;
-	background-color: #b5c401;
+	background-color: ${(props) => props.background};
 	align-self: center;
 	align-items: center;
 	border-radius: 5px;
@@ -50,7 +72,8 @@ export const AddCartButton = styled.TouchableOpacity`
 export const ButtonContainer = styled.View`
 	flex-direction: row;
 `;
-export const ButtonContentAddCart = styled.Text`
-	color: #ffffff;
+export const ButtonContentAddCart = styled.Text<ButtonContentAddCartProps>`
+	font-family: Helvetica-Neue;
+	color: ${(props) => props.color};
 	font-weight: bold;
 `;

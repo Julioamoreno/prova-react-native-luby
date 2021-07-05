@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActivityIndicator, ScrollView } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment';
 
@@ -12,7 +11,8 @@ import GamePlayedModel from '../../models/gamePlayed';
 
 import FormatMoney from '../../shared/format/Money';
 
-import { Container, Text, GameList } from './styles';
+import { Container, Text, ScrollGames, GameList } from './styles';
+import Loader from '../Loaders/RecentsGamesLoader';
 
 const RecentGamesList: React.FC<{
 	loadingError: boolean;
@@ -46,9 +46,9 @@ const RecentGamesList: React.FC<{
 					return;
 				}
 				if (err.response.status === 401) {
-					return Toast.show('Não Autorizado');
+					return Toast.show('Não Autorizado', Toast.SHORT);
 				}
-				Toast.show(err.message);
+				Toast.show(err.message, Toast.SHORT);
 			}
 		})();
 	}, [user, url, dispatch]);
@@ -69,14 +69,14 @@ const RecentGamesList: React.FC<{
 
 	return (
 		<Container>
-			{loading && <ActivityIndicator size='large' color='#0000ff' />}
+			{loading && <Loader />}
 			{!loading && !props.loadingError && gamePlayedFiltered.length === 0 && (
 				<Text>Não existem registros para esse jogo</Text>
 			)}
 			{!loading && props.loadingError && (
 				<Text>Não foi possível carregar as informações do servidor</Text>
 			)}
-			<ScrollView>
+			<ScrollGames>
 				<GameList>
 					{!loading &&
 						gamePlayedFiltered.map((gamePlayed, idx) => (
@@ -91,7 +91,7 @@ const RecentGamesList: React.FC<{
 							/>
 						))}
 				</GameList>
-			</ScrollView>
+			</ScrollGames>
 		</Container>
 	);
 };

@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 interface GameButtonProps {
 	color: string;
 	isChecked: boolean;
+	colorDefault: string;
 }
 
 export const GameTypeButton = styled.TouchableOpacity<GameButtonProps>`
@@ -17,7 +18,8 @@ export const GameTypeButton = styled.TouchableOpacity<GameButtonProps>`
 	margin-bottom: 10px;
 	margin-right: 10px;
 	flex-direction: row;
-	background-color: ${(props) => (props.isChecked ? props.color : '#FFFFFF')};
+	background-color: ${(props) =>
+		props.isChecked ? props.color : props.colorDefault};
 	border-color: ${(props) => props.color};
 `;
 
@@ -26,11 +28,12 @@ export const ContainerButton = styled.View`
 `;
 
 export const GameButtonText = styled.Text<GameButtonProps>`
+	font-family: Helvetica-Neue;
 	font-size: 16px;
 	font-weight: bold;
 	font-style: italic;
 	letter-spacing: 0.6px;
-	color: ${(props) => (props.isChecked ? '#FFFFFF' : props.color)};
+	color: ${(props) => (props.isChecked ? props.colorDefault : props.color)};
 `;
 
 export const CloseBtn = styled.TouchableOpacity`

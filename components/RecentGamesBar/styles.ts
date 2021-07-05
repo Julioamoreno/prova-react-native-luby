@@ -5,6 +5,7 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
+	font-family: Helvetica-Neue;
 	font-size: 25px;
 	font-style: italic;
 	font-weight: bold;
@@ -15,6 +16,7 @@ export const Title = styled.Text`
 export const Content = styled.View``;
 
 export const Subtitle = styled.Text`
+	font-family: Helvetica-Neue;
 	font-size: 18px;
 	font-style: italic;
 	color: #707070;

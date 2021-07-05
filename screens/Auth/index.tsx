@@ -1,25 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import FormAuthentication from '../../components/FormAuthentication';
 import InitialImage from '../../components/InitialLoading';
+import * as SplashScreen from 'expo-splash-screen';
 
-import { Container, Title, TitleText } from './styles';
+import {
+	Container,
+	Content,
+	Title,
+	TitleText,
+	Bottom,
+	BottomCopyright,
+} from './styles';
 
 const Auth: React.FC = () => {
-	const [ready, setReady] = useState(false);
-	useEffect(() => {
-		setReady(true);
+	const onLayoutRootView = useCallback(async () => {
+		await SplashScreen.hideAsync();
 	}, []);
+
 	return (
 		<>
-			<Container>
+			<Container onLayout={onLayoutRootView}>
 				<StatusBar style='auto' />
-				<Title>
-					<TitleText>TGL</TitleText>
-				</Title>
-				<FormAuthentication />
-				{/* <InitialImage ready={ready} /> */}
+				<Content>
+					<Title>
+						<TitleText>TGL</TitleText>
+					</Title>
+					<FormAuthentication />
+				</Content>
+				<Bottom>
+					<BottomCopyright>Copyright 2020 Luby Software</BottomCopyright>
+				</Bottom>
 			</Container>
 		</>
 	);

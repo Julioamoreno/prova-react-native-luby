@@ -21,6 +21,7 @@ import {
 	ButtonContainer,
 	ButtonContentAddCart,
 } from './styles';
+import { colors } from '../../styles/colors';
 
 const GameAction: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
 	navigation,
@@ -67,16 +68,26 @@ const GameAction: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
 
 	return (
 		<Container>
-			<CompleteButton onPress={completeGameHandle}>
-				<ButtonContent>Complete game</ButtonContent>
+			<CompleteButton
+				background={colors.lynx_white}
+				border={colors.primary}
+				onPress={completeGameHandle}
+			>
+				<ButtonContent color={colors.primary}>Complete game</ButtonContent>
 			</CompleteButton>
-			<ClearButton onPress={clearGame}>
-				<ButtonContent>Clear game</ButtonContent>
+			<ClearButton
+				background={colors.lynx_white}
+				border={colors.primary}
+				onPress={clearGame}
+			>
+				<ButtonContent color={colors.primary}>Clear game</ButtonContent>
 			</ClearButton>
-			<AddCartButton onPress={addToCart}>
+			<AddCartButton background={colors.primary} onPress={addToCart}>
 				<ButtonContainer>
-					<Ionicons name='cart-outline' size={20} color='#FFFFFF' />
-					<ButtonContentAddCart>Add to cart</ButtonContentAddCart>
+					<Ionicons name='cart-outline' size={20} color={colors.white} />
+					<ButtonContentAddCart color={colors.white}>
+						Add to cart
+					</ButtonContentAddCart>
 				</ButtonContainer>
 			</AddCartButton>
 		</Container>

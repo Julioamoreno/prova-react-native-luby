@@ -27,6 +27,7 @@ export const ContainerTitle = styled.View`
 `;
 
 export const TitleCart = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #707070;
 	font-size: 24px;
 	font-style: italic;
@@ -38,6 +39,7 @@ export const CartItens = styled.View`
 `;
 
 export const EmptyCart = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #707070;
 	font-size: 18px;
 	margin-top: 30px;
@@ -48,12 +50,14 @@ export const ContainerTotal = styled.View`
 `;
 
 export const TotalTextBoldLeft = styled.Text`
+	font-family: Helvetica-Neue;
 	flex: 4;
 	color: #707070;
 	font-size: 16px;
 	font-weight: bold;
 `;
 export const TotalTextBoldRight = styled.Text`
+	font-family: Helvetica-Neue;
 	flex: 2;
 	color: #707070;
 	font-size: 16px;
@@ -61,6 +65,7 @@ export const TotalTextBoldRight = styled.Text`
 `;
 
 export const TotalTextLight = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #707070;
 	font-size: 16px;
 	font-weight: normal;
@@ -90,6 +95,7 @@ export const SaveButtonContainer = styled.View`
 `;
 
 export const SaveText = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #b5c401;
 	font-size: 30px;
 	font-weight: bold;

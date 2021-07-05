@@ -10,6 +10,7 @@ import ElipseNumber from '../ElipseNumber';
 import FormatString from '../../shared/format/Number';
 
 import { Container, ContainerScrollView } from './styles';
+import Loader from '../Loaders/ListNumbersLoader';
 
 const ListNumbers: React.FC = () => {
 	const { range, max_number, numbersSelected, color } = useSelector(
@@ -25,30 +26,34 @@ const ListNumbers: React.FC = () => {
 		dispatch(gamePlayedAction.setNumberSelected({ numbersSelected: number }));
 		const gameIsComplete = max_number === numbersSelected.length;
 		if (gameIsComplete && !numbersSelected.includes(number)) {
-			Toast.show('O jogo já está completo.');
+			Toast.show('O jogo já está completo.', Toast.SHORT);
 		}
 	};
 
 	return (
 		<Container>
-			<ScrollView
-				showsHorizontalScrollIndicator
-				contentContainerStyle={{ paddingBottom: numbers.length > 0 ? 50 : 0 }}
-				snapToEnd
-			>
-				<ContainerScrollView numberSelected={numbers.length > 0}>
-					{range &&
-						Array.apply(1, Array(range)).map((_x, idx) => (
-							<ElipseNumber
-								key={idx}
-								number={FormatString((idx + 1).toString())}
-								color={color}
-								selectNumber={selectNumberHandle}
-								active={numbers?.includes(FormatString((idx + 1).toString()))}
-							/>
-						))}
-				</ContainerScrollView>
-			</ScrollView>
+			{loading && <Loader />}
+			{!loading && (
+				<ScrollView
+					showsHorizontalScrollIndicator
+					contentContainerStyle={{ paddingBottom: numbers.length > 0 ? 50 : 0 }}
+					snapToEnd
+				>
+					<ContainerScrollView numberSelected={numbers.length > 0}>
+						{!loading &&
+							range &&
+							Array.apply(1, Array(range)).map((_x, idx) => (
+								<ElipseNumber
+									key={idx}
+									number={FormatString((idx + 1).toString())}
+									color={color}
+									selectNumber={selectNumberHandle}
+									active={numbers?.includes(FormatString((idx + 1).toString()))}
+								/>
+							))}
+					</ContainerScrollView>
+				</ScrollView>
+			)}
 		</Container>
 	);
 };

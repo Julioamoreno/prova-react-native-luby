@@ -8,6 +8,8 @@ import {
 	CloseBtn,
 } from './styles';
 
+import { colors } from '../../styles/colors';
+
 const GameType: React.FC<{
 	color: string;
 	gameType: string;
@@ -20,14 +22,19 @@ const GameType: React.FC<{
 			onPress={props.onPress}
 			isChecked={props.checked}
 			color={props.color}
+			colorDefault={colors.white}
 		>
 			<ContainerButton>
-				<GameButtonText isChecked={props.checked} color={props.color}>
+				<GameButtonText
+					isChecked={props.checked}
+					color={props.color}
+					colorDefault={colors.white}
+				>
 					{props.gameType}
 				</GameButtonText>
 				{props.checked && props.thisRecentGamesScreen && (
 					<CloseBtn>
-						<FontAwesome name='close' size={10} color='#FFFFFF' />
+						<FontAwesome name='close' size={10} color={colors.white} />
 					</CloseBtn>
 				)}
 			</ContainerButton>

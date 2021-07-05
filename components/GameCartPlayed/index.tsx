@@ -6,6 +6,7 @@ import moment from 'moment';
 import FormatMoney from '../../shared/format/Money';
 
 import { Col, ListNumber, Row, DateAndPriceP, GameType } from './styles';
+import { colors } from '../../styles/colors';
 
 const GameCartPlayed: React.FC<{
 	color: string;
@@ -19,10 +20,10 @@ const GameCartPlayed: React.FC<{
 	return (
 		<Col style={{ borderLeftColor: props?.color }}>
 			<View>
-				<ListNumber>{props.numbers}</ListNumber>
+				<ListNumber color={colors.gray}>{props.numbers}</ListNumber>
 			</View>
 			<Row>
-				<DateAndPriceP>
+				<DateAndPriceP color={colors.gray}>
 					{moment(DateNow).format('DD/MM/yyyy')} - (
 					{FormatMoney(props.gamePrice)})
 				</DateAndPriceP>
@@ -34,7 +35,9 @@ const GameCartPlayed: React.FC<{
 				/>
 			</Row>
 			<View>
-				<GameType style={{ color: props.color }}>{props?.type}</GameType>
+				<GameType color={colors.gray} style={{ color: props.color }}>
+					{props?.type}
+				</GameType>
 			</View>
 		</Col>
 	);

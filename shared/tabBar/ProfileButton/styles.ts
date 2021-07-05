@@ -1,7 +1,17 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+interface Props {
+	thisRoute: boolean;
+	color: string;
+	defaultColor: string;
+}
+
+export const Container = styled.View<Props>`
+	border-top-width: 3px;
+	border-radius: 2px;
 	margin-bottom: 10px;
+	border-color: ${(props) =>
+		props.thisRoute ? props.color : props.defaultColor};
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -10,8 +20,10 @@ export const Button = styled.TouchableOpacity`
 	align-items: center;
 `;
 
-export const TitleText = styled.Text`
+export const TitleText = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 14px;
 	font-style: italic;
-	color: #c1c1c1;
+	font-weight: ${(props) => (props.thisRoute ? 'bold' : 100)};
+	color: ${(props) => (props.thisRoute ? props.color : props.defaultColor)};
 `;

@@ -10,6 +10,7 @@ export const HeaderContainer = styled.View`
 `;
 
 export const Title = styled.Text`
+	font-family: Helvetica-Neue;
 	border-bottom-width: 5px;
 	border-bottom-color: #b5c401;
 	border-bottom-left-radius: 5px;
@@ -20,6 +21,7 @@ export const Title = styled.Text`
 `;
 
 export const TitleText = styled.Text`
+	font-family: Helvetica-Neue;
 	font-size: 30px;
 	font-weight: bold;
 	font-style: italic;

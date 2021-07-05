@@ -15,6 +15,6 @@ export const Container = styled.TouchableOpacity`
 export const ContainerScrollView = styled.View<ContainerScrollViewProps>`
 	flex-direction: row;
 	flex-wrap: wrap;
-	margin-top: ${(props) => (props.numberSelected ? '280px' : '250px')};
+	margin-top: ${(props) => (props.numberSelected ? '290px' : '280px')};
 	margin-bottom: ${(props) => (props.numberSelected ? '-30px' : '20px')};
 `;

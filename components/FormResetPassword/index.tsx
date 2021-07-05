@@ -8,6 +8,7 @@ import SignUpButton from '../SignUpButton';
 import Input from '../Inputs';
 
 import { FormContainer, FormTitle, TextError, Form } from './styles';
+import { colors } from '../../styles/colors';
 
 const FormResetPassword: React.FC<{
 	setPage: (page: string) => void;
@@ -18,9 +19,9 @@ const FormResetPassword: React.FC<{
 	const [email, setEmail] = useState('');
 	return (
 		<FormContainer style={{ width: Dimensions.get('window').width - 50 }}>
-			<FormTitle>Reset password</FormTitle>
+			<FormTitle color={colors.gray_70}>Reset password</FormTitle>
 			{props.error && <TextError> {props.error} </TextError>}
-			<Form>
+			<Form background={colors.white} border={colors.alto_gray}>
 				<Input
 					label='Email'
 					value={email}

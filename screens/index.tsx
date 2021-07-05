@@ -13,6 +13,7 @@ import ProfileButton from '../shared/tabBar/ProfileButton';
 import Auth from './Auth';
 import RecentGames from './RecentGames';
 import NewBet from './NewBet';
+import Profile from './User';
 import DefaultDrawer from '../shared/cart';
 
 import DrawerStackParamList from '../models/DrawerStackParamList';
@@ -29,6 +30,7 @@ type AuthStackParamList = {
 type HomeStackParamList = {
 	RecentGames: undefined;
 	NewBet: undefined;
+	Profile: undefined;
 };
 
 type TabStackParamList = {
@@ -72,6 +74,19 @@ const NewBetStackScreen: React.FC = () => (
 	</HomeStack.Navigator>
 );
 
+const ProfileStackScreen: React.FC = () => (
+	<HomeStack.Navigator
+		initialRouteName='Profile'
+		screenOptions={{ cardStyle: { backgroundColor: '#F7F7F7' } }}
+	>
+		<HomeStack.Screen
+			name='Profile'
+			component={Profile}
+			options={{ headerTitle: () => <Header />, headerStyle: { height: 100 } }}
+		/>
+	</HomeStack.Navigator>
+);
+
 const TabsScreen: React.FC = () => (
 	<Tabs.Navigator
 		initialRouteName='Home'
@@ -110,8 +125,12 @@ const TabsScreen: React.FC = () => (
 		/>
 		<Tabs.Screen
 			name='Profile'
-			component={HomeStackScreen}
-			options={{ tabBarButton: () => <ProfileButton /> }}
+			component={ProfileStackScreen}
+			options={({ navigation }) => ({
+				tabBarButton: () => (
+					<ProfileButton navigation={() => navigation.navigate('Profile')} />
+				),
+			})}
 		/>
 	</Tabs.Navigator>
 );

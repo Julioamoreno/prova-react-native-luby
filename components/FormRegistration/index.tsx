@@ -7,6 +7,7 @@ import InputPassword from '../Inputs/Password';
 import BackButton from '../BackButton';
 
 import { FormContainer, FormTitle, TextError, Form } from './styles';
+import { colors } from '../../styles/colors';
 
 const FormRegistration: React.FC<{
 	setPage: (page: string) => void;
@@ -18,9 +19,9 @@ const FormRegistration: React.FC<{
 	const [password, setPassword] = useState('');
 	return (
 		<FormContainer style={{ width: Dimensions.get('window').width - 50 }}>
-			<FormTitle>Registration</FormTitle>
+			<FormTitle color={colors.gray_70}>Registration</FormTitle>
 			{props.error && <TextError> {props.error} </TextError>}
-			<Form>
+			<Form background={colors.white} border={colors.alto_gray}>
 				<Input label='Name' value={name} onChange={(text) => setName(text)} />
 				<Input
 					label='Email'

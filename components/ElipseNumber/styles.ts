@@ -14,6 +14,7 @@ export const Elipse = styled.TouchableOpacity`
 `;
 
 export const ElipseText = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #ffffff;
 	font-size: 20px;
 	font-weight: bold;

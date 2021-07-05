@@ -22,6 +22,7 @@ export const CloseBtn = styled.View`
 `;
 
 export const ElipseText = styled.Text`
+	font-family: Helvetica-Neue;
 	color: #ffffff;
 	font-size: 15px;
 	font-weight: bold;

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Input } from 'react-native-elements';
 
 const InputPassword: React.FC<{
 	value: string;
 	onChange: (password: string) => void;
+	onFocus?: () => void;
 }> = (props) => {
 	const [secureTextEntry, setSecureTextEntry] = useState(true);
+	const [selected, setSelected] = useState(false);
 	const handleSecureTextEntry = () => {
 		if (secureTextEntry) {
 			setSecureTextEntry(false);
@@ -16,43 +18,61 @@ const InputPassword: React.FC<{
 	};
 
 	return (
-		<TextInput
+		<Input
 			style={styles.input}
+			autoCapitalize='none'
+			autoCorrect={false}
 			label='Password'
-			mode='flat'
 			value={props.value}
 			onChangeText={(text) => props.onChange(text)}
-			spellCheck={false}
-			selectionColor='#B5C401'
-			secureTextEntry={secureTextEntry}
-			theme={{
-				colors: {
-					placeholder: '#9D9D9D',
-					primary: secureTextEntry ? '#C1C1C1' : '#B5C401',
-				},
+			onChange={props.onFocus}
+			onFocus={() => setSelected(true)}
+			onBlur={() => setSelected(false)}
+			containerStyle={{
+				height: 70,
+				paddingHorizontal: 0,
 			}}
-			right={
-				<TextInput.Icon
-					name='eye'
-					onPress={() => handleSecureTextEntry()}
-					color={secureTextEntry ? '#C1C1C1' : '#B5C401'}
-				/>
-			}
+			labelStyle={{
+				...styles.inputEmail,
+				transform:
+					selected || props.value ? [{ translateY: 10 }] : [{ translateY: 30 }],
+			}}
+			inputContainerStyle={{
+				width: '100%',
+				borderBottomWidth: 1,
+				borderBottomColor: selected ? '#B5C401' : '#DDDDDD',
+				transform: [{ translateX: 30 }],
+			}}
+			rightIcon={{
+				type: 'font-awesome',
+				name: 'eye',
+				color: selected ? '#B5C401' : '#DDDDDD',
+				onPress: () => handleSecureTextEntry(),
+			}}
+			rightIconContainerStyle={{ marginRight: 10 }}
+			secureTextEntry={secureTextEntry}
 		/>
 	);
 };
 
 const styles = StyleSheet.create({
 	input: {
-		height: 70,
+		fontFamily: 'Helvetica-Neue',
+		fontSize: 15,
 		paddingLeft: 20,
+		height: 50,
 		fontWeight: 'bold',
 		fontStyle: 'italic',
-		borderTopLeftRadius: 15,
-		borderTopRightRadius: 15,
-		borderBottomWidth: 1,
-		backgroundColor: '#fff',
-		borderBottomColor: '#eee',
+		textTransform: 'lowercase',
+		color: '#9D9D9D',
+	},
+	inputEmail: {
+		fontFamily: 'Helvetica-Neue',
+		fontSize: 15,
+		fontStyle: 'italic',
+		fontWeight: 'bold',
+		marginLeft: 20,
+		color: '#9D9D9D',
 	},
 });
 

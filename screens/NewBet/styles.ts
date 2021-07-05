@@ -14,20 +14,20 @@ export const Bar = styled.View`
 export const ContainerTitle = styled.View``;
 
 export const Title = styled.Text`
+	font-family: Helvetica-Neue;
 	padding-top: 25px;
 	font-size: 22px;
 	font-style: italic;
 	font-weight: bold;
 	color: #707070;
 	text-transform: uppercase;
-	background-color: #f7f7f780;
 `;
 export const ContainerGameBar = styled.View`
 	padding-bottom: 10px;
-	background-color: #f7f7f790;
 `;
 
 export const Subtitle = styled.Text`
+	font-family: Helvetica-Neue;
 	font-size: 17px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -36,5 +36,16 @@ export const Subtitle = styled.Text`
 `;
 
 export const ContainerAction = styled.View`
-	background-color: #f7f7f780;
+	margin-bottom: 10px;
+`;
+
+export const LineBottom = styled.Text`
+	height: 2px;
+	align-content: flex-start;
+	align-self: center;
+	border-top-color: #c1c1c1;
+	border-top-width: 6px;
+	border-radius: 6px;
+	width: 36px;
+	text-align: center;
 `;

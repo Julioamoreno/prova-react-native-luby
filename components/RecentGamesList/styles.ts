@@ -5,8 +5,14 @@ export const Container = styled.View`
 	margin-top: 5px;
 `;
 
-export const Text = styled.Text``;
+export const Text = styled.Text`
+	font-family: Helvetica-Neue;
+`;
+
+export const ScrollGames = styled.ScrollView`
+	margin-bottom: 60px;
+`;
 
 export const GameList = styled.View`
-	margin-bottom: 150px;
+	margin-bottom: 280px;
 `;

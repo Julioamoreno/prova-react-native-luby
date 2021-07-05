@@ -1,18 +1,23 @@
 import styled from 'styled-components/native';
 
-export const ContainerDescription = styled.View`
-	margin-bottom: 15px;
-`;
+interface Props {
+	color: string;
+}
 
-export const DescriptionTitle = styled.Text`
+export const ContainerDescription = styled.View``;
+
+export const DescriptionTitle = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 17px;
 	font-style: italic;
 	font-weight: bold;
-	color: #868686;
+	color: ${(props) => props.color};
 `;
 
-export const Description = styled.Text`
+export const Description = styled.Text<Props>`
+	font-family: Helvetica-Neue;
 	font-size: 14px;
 	font-style: italic;
-	color: #868686;
+	color: ${(props) => props.color};
+	line-height: 24px;
 `;
