@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GameButtonsList from '../../components/GameButtonsList';
 import GameDescription from '../../components/GameDescription';
 import ActionBetBar from '../../components/ActionBetBar';
 import DrawerScreenNavigationProp from '../../models/HomeScreenNavigationProp';
+import { useFocusEffect } from '@react-navigation/native';
 
 import {
 	State,
@@ -46,21 +47,21 @@ const NewBet: React.FC<{ navigation: DrawerScreenNavigationProp }> = ({
 	const gameDescriptionOpacity = useSharedValue(1);
 	const actionBetBarOpacity = useSharedValue(0);
 
-	useEffect(() => {
-		dispatch(loadingAction.waitLoading);
-	}, []);
-	useEffect(() => {
-		if (allGames.length === 0) return;
-		dispatch(loadingAction.stopLoading);
-		selectGameHandle(allGames[0]);
-	}, [allGames]);
+	useFocusEffect(
+		useCallback(() => {
+			if (allGames.length === 0) return;
+			selectGameHandle(allGames[0]);
+		}, [allGames])
+	);
 
-	useEffect(() => {
-		if (numbersSelected.length === 0) {
-			return setActionBetBarVisible(false);
-		}
-		setActionBetBarVisible(true);
-	}, [numbersSelected]);
+	useFocusEffect(
+		useCallback(() => {
+			if (numbersSelected.length === 0) {
+				return setActionBetBarVisible(false);
+			}
+			setActionBetBarVisible(true);
+		}, [numbersSelected])
+	);
 
 	useEffect(() => {
 		if (actionBetBarVisible) {

@@ -22,6 +22,7 @@ const RecentGamesBar: React.FC = () => {
 			<Title>Recent Games</Title>
 			<Content>
 				<Subtitle>Filters</Subtitle>
+
 				<GameButtonsList
 					selectedButton={gameType}
 					selectGameHandle={selectGameHandle}

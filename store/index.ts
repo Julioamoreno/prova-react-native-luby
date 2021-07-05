@@ -21,6 +21,7 @@ import gameSelected from './reducers/gameSelected';
 import gamePlayed from './reducers/gamePlayed';
 import cartGame from './reducers/cartGame';
 import cartTotal from './reducers/cartTotal';
+import loadDataApi from './reducers/loadDataApi';
 
 const reducers = combineReducers({
 	authentication: authentication.reducer,
@@ -30,6 +31,7 @@ const reducers = combineReducers({
 	gamePlayed: gamePlayed.reducer,
 	cartGame: cartGame.reducer,
 	cartTotal: cartTotal.reducer,
+	loadDataApi: loadDataApi.reducer,
 });
 
 const persistConfig = {
@@ -58,5 +60,6 @@ export const gameSelectedAction = gameSelected.actions;
 export const gamePlayedAction = gamePlayed.actions;
 export const cartGameAction = cartGame.actions;
 export const cartTotalAction = cartTotal.actions;
+export const loadDataApiAction = loadDataApi.actions;
 
 export default store;

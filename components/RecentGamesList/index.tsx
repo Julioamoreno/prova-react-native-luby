@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
 
 import GamePlayed from '../GamePlayed';
 import { State, loadingAction, recentsAction } from '../../store';
@@ -23,35 +24,37 @@ const RecentGamesList: React.FC<{
 	const [url] = useState('/bets');
 	const gameType = useSelector((state: State) => state.recents.id);
 	const loading = useSelector((state: State) => state.loading);
+	const loadData = useSelector((state: State) => state.loadDataApi);
 	const { user } = useSelector((state: State) => state.authentication);
 	const [gamePlayedFiltered, setGamePlayedFiltered] = useState<GamePlayedModel>(
 		[]
 	);
-
-	useEffect(() => {
-		dispatch(loadingAction.waitLoading());
-		(async () => {
-			try {
-				const response = await API.get(url, {
-					headers: { Authorization: `Bearer ${user.token}` },
-				});
-				if (response.status === 200) {
-					dispatch(loadingAction.stopLoading());
-					setAllGamesPlayed(response.data.data);
+	useFocusEffect(
+		useCallback(() => {
+			dispatch(loadingAction.waitLoading());
+			(async () => {
+				try {
+					const response = await API.get(url, {
+						headers: { Authorization: `Bearer ${user.token}` },
+					});
+					if (response.status === 200) {
+						props.setLoadingError(false);
+						dispatch(loadingAction.stopLoading());
+						setAllGamesPlayed(response.data);
+					}
+				} catch (err) {
+					props.setLoadingError(true);
+					if (err.response === undefined) {
+						return;
+					}
+					if (err.response.status === 401) {
+						return Toast.show('Não Autorizado', Toast.SHORT);
+					}
+					Toast.show(err.message, Toast.SHORT);
 				}
-			} catch (err) {
-				dispatch(loadingAction.stopLoading());
-				props.setLoadingError(true);
-				if (err.response === undefined) {
-					return;
-				}
-				if (err.response.status === 401) {
-					return Toast.show('Não Autorizado', Toast.SHORT);
-				}
-				Toast.show(err.message, Toast.SHORT);
-			}
-		})();
-	}, [user, url, dispatch]);
+			})();
+		}, [loadData])
+	);
 
 	useEffect(() => {
 		if (
@@ -69,16 +72,17 @@ const RecentGamesList: React.FC<{
 
 	return (
 		<Container>
-			{loading && <Loader />}
+			{loading && !props.loadingError && <Loader />}
 			{!loading && !props.loadingError && gamePlayedFiltered.length === 0 && (
 				<Text>Não existem registros para esse jogo</Text>
 			)}
-			{!loading && props.loadingError && (
+			{props.loadingError && (
 				<Text>Não foi possível carregar as informações do servidor</Text>
 			)}
 			<ScrollGames>
 				<GameList>
 					{!loading &&
+						!props.loadingError &&
 						gamePlayedFiltered.map((gamePlayed, idx) => (
 							<GamePlayed
 								key={idx}

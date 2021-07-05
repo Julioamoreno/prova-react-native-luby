@@ -12,11 +12,6 @@ const RecentGamesBar: React.FC<{}> = () => {
 	const onLayoutRootView = useCallback(async () => {
 		await SplashScreen.hideAsync();
 	}, []);
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(loadingAction.waitLoading);
-	}, []);
 
 	return (
 		<View onLayout={onLayoutRootView}>

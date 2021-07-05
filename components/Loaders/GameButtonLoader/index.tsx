@@ -1,14 +1,14 @@
 import React from 'react';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 
-const GameButtonLoader: React.FC = (props) => (
+const GameButtonLoader: React.FC<{ error: boolean }> = (props) => (
 	<>
 		<ContentLoader
 			speed={2}
 			width={110}
 			height={35}
 			viewBox='0 0 110 35'
-			backgroundColor='#aaa7a7'
+			backgroundColor={props.error ? '#8b0000' : '#aaa7a7'}
 			foregroundColor='#7d7878'
 			{...props}
 		>

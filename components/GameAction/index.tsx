@@ -53,7 +53,7 @@ const GameAction: React.FC<{ navigation: HomeScreenNavigationProp }> = ({
 		}
 		dispatch(
 			cartGameAction.newItemCart({
-				id: game.id,
+				game_id: game.id,
 				type: game.type,
 				numbers: game.numbersSelected.join(', '),
 				price: game.price,

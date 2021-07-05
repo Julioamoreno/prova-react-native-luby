@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import GameType from '../GameType';
 import Loader from '../Loaders/GameButtonLoader';
 import Toast from 'react-native-simple-toast';
+import { useFocusEffect } from '@react-navigation/native';
 
 import API from '../../API';
 
@@ -22,28 +23,32 @@ const GameButtonsList: React.FC<{
 }> = (props) => {
 	const dispatch = useDispatch();
 	const isLoading = useSelector((state: State) => state.loading);
-	useEffect(() => {
-		(async () => {
-			try {
-				const response = await API.get('/games');
+	const [error, setError] = useState(false);
+	useFocusEffect(
+		useCallback(() => {
+			dispatch(loadingAction.waitLoading);
+			(async () => {
+				try {
+					const response = await API.get('/games');
 
-				dispatch(loadingAction.stopLoading);
-				if (response.status === 200) {
-					return props.setAllGames(response.data);
+					dispatch(loadingAction.stopLoading);
+					if (response.status === 200) {
+						setError(false);
+						return props.setAllGames(response.data);
+					}
+				} catch (err) {
+					setError(true);
+					return Toast.show(err.message, Toast.SHORT);
 				}
-			} catch (err) {
-				dispatch(loadingAction.stopLoading);
-				return Toast.show(err.message, Toast.SHORT);
-			}
-		})();
-		dispatch(loadingAction.stopLoading);
-	}, []);
+			})();
+		}, [])
+	);
 
 	return (
 		<GameList>
-			{isLoading && <Loader />}
-			{isLoading && <Loader />}
-			{!isLoading && (
+			{isLoading && <Loader error={error} />}
+			{isLoading && <Loader error={error} />}
+			{!isLoading && !error && (
 				<ScrollView horizontal>
 					{!!props.allGames &&
 						props.allGames.map((game) => (

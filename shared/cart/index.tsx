@@ -3,12 +3,21 @@ import { TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { DrawerActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import { State, cartTotalAction, cartGameAction } from '../../store';
+import {
+	State,
+	cartTotalAction,
+	cartGameAction,
+	gamePlayedAction,
+	loadDataApiAction,
+} from '../../store';
 import { EvilIcons, Feather, FontAwesome } from '@expo/vector-icons';
+import toast from 'react-native-simple-toast';
 
 import GameCartPlayed from '../../components/GameCartPlayed';
 
 import FormatMoney from '../format/Money';
+
+import API from '../../API';
 
 import {
 	Cart,
@@ -29,14 +38,53 @@ import {
 } from './styles';
 
 const DefaultDrawer: React.FC = () => {
-	const games = useSelector((state: State) => state.cartGame);
-	const { total } = useSelector((state: State) => state.cartTotal);
 	const dispatch = useDispatch();
+	const games = useSelector((state: State) => state.cartGame);
+	const { user } = useSelector((state: State) => state.authentication);
+	const { total } = useSelector((state: State) => state.cartTotal);
+	const { min_cart_value } = useSelector((state: State) => state.gamePlayed);
 	const navigation = useNavigation();
 
 	const deleteGame = (id: number, price: number) => {
 		dispatch(cartGameAction.deleteItemChart({ id }));
 		dispatch(cartTotalAction.decrement({ price }));
+	};
+
+	const handleSuccessResponse = async () => {
+		dispatch(gamePlayedAction.clearGame());
+		dispatch(cartGameAction.clearCart());
+		dispatch(cartTotalAction.clear());
+		dispatch(loadDataApiAction.loadData());
+		toast.show('Jogo salvo com sucesso.', toast.LONG);
+	};
+
+	const saveGamesCart = async () => {
+		const minValue = FormatMoney(min_cart_value);
+
+		if (total < min_cart_value) {
+			return toast.show(`Valor mínimo para salvar é ${minValue}`, toast.LONG);
+		}
+		try {
+			const response = await API.post(
+				'/bets',
+				{
+					bet: [...games],
+				},
+				{ headers: { Authorization: `Bearer ${user.token}` } }
+			);
+
+			if (response.status === 200) {
+				return handleSuccessResponse();
+			}
+		} catch (err) {
+			if (err.response === undefined) {
+				return toast.show(err.message);
+			}
+			if (err.response.status === 401) {
+				return toast.show('Não Autorizado');
+			}
+			toast.show(err.message, toast.LONG);
+		}
 	};
 
 	return (
@@ -79,7 +127,7 @@ const DefaultDrawer: React.FC = () => {
 				</ContainerTotal>
 			</Container>
 			<SaveContainer>
-				<SaveButton>
+				<SaveButton onPress={saveGamesCart}>
 					<SaveButtonContainer>
 						<SaveText>Save</SaveText>
 						<Feather name='arrow-right' size={28} color='#B5C401' />

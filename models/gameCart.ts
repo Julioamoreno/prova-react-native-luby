@@ -1,7 +1,7 @@
 interface GameCart
 	extends Array<{
 		game_id: number;
-		numbers: Array<string>;
+		numbers: string;
 		type: string;
 		price: number;
 		color: string;

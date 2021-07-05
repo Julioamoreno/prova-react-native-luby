@@ -7,6 +7,8 @@ export const Container = styled.View`
 
 export const Text = styled.Text`
 	font-family: Helvetica-Neue;
+	font-size: 16px;
+	font-weight: bold;
 `;
 
 export const ScrollGames = styled.ScrollView`

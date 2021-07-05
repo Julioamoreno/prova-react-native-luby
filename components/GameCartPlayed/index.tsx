@@ -11,7 +11,7 @@ import { colors } from '../../styles/colors';
 const GameCartPlayed: React.FC<{
 	color: string;
 	type: string;
-	numbers: Array<string>;
+	numbers: string;
 	gamePrice: number;
 	deleteGame: () => void;
 }> = (props) => {

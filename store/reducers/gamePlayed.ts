@@ -94,7 +94,9 @@ const slice = createSlice({
 			state.numbersSelected = [];
 		},
 		reset: () => {
-			return {} as StateGameSelected;
+			return {
+				numbersSelected: [],
+			} as StateGameSelected;
 		},
 	},
 });
